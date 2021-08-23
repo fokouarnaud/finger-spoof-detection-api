@@ -1,62 +1,91 @@
+# app.py#Import necessary packages
+from base import Movies, db
 from flask import Flask
-from flask_restful import reqparse, abort, Api, Resource
+from flask_restful import Resource, reqparse, Api  # Instantiate a flask object
 
 app = Flask(__name__)
+
+# Instantiate Api object
 api = Api(app)
 
-# Creaating a empty database for storing the products
-SHOPPING_CART = {}
+# Setting the location for the sqlite database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///base.db'
 
-# adding arguments needed for parsing
-parser = reqparse.RequestParser()
-parser.add_argument('product', type= str, help= "Please enter the product name")
-parser.add_argument('quantity', type= int, help= "Please enter the quantity")
+# Adding the configurations for the database
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Method to check the product available or not
-def abort_if_product_doesnt_exist(todo_id):
-    if todo_id not in TODOS:
-        abort(404, message="Product doesn't exist") # aborting the API call
+# Import necessary classes from base.py
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
+# Link the app object to the Movies database
+db.init_app(app)
+app.app_context().push()
 
-# To fetch, update or delete a single product
-class Cart(Resource):
-
-    # get the product details by passing product id
-    def get(self, product_id):
-        abort_if_product_doesnt_exist(product_id) # Checking whether the product id exists
-        return SHOPPING_CART[product_id]
-
-    # updating the quantity of the product
-    def put(self, product_id):
-        args = parser.parse_args()
-        SHOPPING_CART[product_id]['quantity'] = args['quantity']
-        return SHOPPING_CART[product_id], 201 # return a JSON object, along with the return code 201 after updating
-
-    # deleting the product
-    def delete(self, product_id):
-        abort_if_product_doesnt_exist(product_id) # Checking whether the product id exists
-        del SHOPPING_CART[product_id]
-        return '', 204 # return a JSON object, along with the return code 204 after deleting
+# Create the databases
+db.create_all()  # Creating a class to create get, post, put & delete methods
 
 
-# shows a list of all items in the cart and to add a new product to the cart
-class CartList(Resource):
+class Movies_List(Resource):
 
-    # Fetch all the products in the cart.
+    # Instantiating a parser object to hold data from message payload
+    parser = reqparse.RequestParser()
+    parser.add_argument('director', type=str, required=False,
+                        help='Director of the movie')
+    parser.add_argument('genre', type=str, required=False,
+                        help='Genre of the movie')
+    parser.add_argument('collection', type=int, required=True,
+                        help='Gross collection of the movie')
+
+    # Creating the get method
+    def get(self, movie):
+        item = Movies.find_by_title(movie)
+        if item:
+            return item.json()
+        return {'Message': 'Movie is not found'}
+
+    # Creating the post method
+    def post(self, movie):
+        if Movies.find_by_title(movie):
+            return {' Message': 'Movie with the  title {} already exists'.format(movie)}
+
+        args = Movies_List.parser.parse_args()
+        item = Movies(movie, args['director'],
+                      args['genre'],      args['collection'])
+
+        item.save_to()
+        return item.json()
+
+    # Creating the put method
+    def put(self, movie):
+        args = Movies_List.parser.parse_args()
+        item = Movies.find_by_title(movie)
+        if item:
+            item.collection = args['collection']
+            item.save_to()
+            return {'Movie': item.json()}
+        item = Movies(movie, args['director'],
+                      args['genre'], args['collection'])
+        item.save_to()
+        return item.json()  # Creating the delete method
+
+    def delete(self, movie):
+        item = Movies.find_by_title(movie)
+        if item:
+            item.delete_()
+            return {'Message': '{} has been deleted from records'.format(movie)}
+        return {'Message': '{} is already not on the list'.format()}
+
+
+# Creating a class to get all the movies from the database.
+class All_Movies(Resource):  # Defining the get method
     def get(self):
-        return SHOPPING_CART  # returning a JSON object of all products
+        # Adding the URIs to the api
+        return {'Movies': list(map(lambda x: x.json(), Movies.query.all()))}
 
-    # Adding a new product to the cart.
-    def post(self):
-        args = parser.parse_args()
-        product_id = args['product'].lower()
-        SHOPPING_CART[product_id] = {'product': args['product'], 'quantity': args['quantity']}
-        return SHOPPING_CART[product_id], 201
 
-# Api resource routing
-api.add_resource(CartList, '/product') # Adding resources for routing for class CartList
-api.add_resource(Cart, '/product/<product_id>') # Adding resources for routing for class Cart
-
+api.add_resource(All_Movies, '/')
+api.add_resource(Movies_List, '/<string:movie>')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Run the applications
+    app.run()
