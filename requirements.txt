@@ -1,0 +1,13 @@
+aniso8601 @ file:///home/conda/feedstock_root/build_artifacts/aniso8601_1618789466884/work
+certifi==2021.5.30
+click==7.1.2
+Flask==1.1.2
+Flask-RESTful @ file:///home/conda/feedstock_root/build_artifacts/flask-restful_1622406740831/work
+gunicorn @ file:///home/conda/feedstock_root/build_artifacts/gunicorn_1620734326877/work
+itsdangerous==1.1.0
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
+pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1612179539967/work
+six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
+Werkzeug==1.0.1
