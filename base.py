@@ -7,8 +7,8 @@ db = SQLAlchemy()  # Creating database class
 
 
 classroomsubjectclasscandidate = db.Table('classroomsubjectclasscandidate',
-    db.Column('candidate_id',db.Integer,db.ForeignKey('candidate.candidate_id'),primary_key=True),
-    db.Column('classroom_subject_class_id',db.Integer,db.ForeignKey('classroomsubjectclass.classroom_subject_class_id'),primary_key=True),
+    db.Column('candidate_id',db.Integer,db.ForeignKey('candidate.candidate_id')),
+    db.Column('classroom_subject_class_id',db.Integer,db.ForeignKey('classroomsubjectclass.classroom_subject_class_id')),
     db.Column('is_present',db.Boolean, unique=False, default=True)
 )
 
@@ -32,7 +32,9 @@ class Candidate(db.Model):
 
     # Method to show data as dictionary object
     def json(self):
-        return {'name': self.name,
+        return {
+            'candidate_id':self.candidate_id,
+            'name': self.name,
                 'keypoints': self.keypoints,
                 'descriptors': self.descriptors}
 
@@ -56,6 +58,7 @@ class Candidate(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+
 class Classroomsubjectclass (db.Model):
 
     # Creating field/columns of the database as class variables
@@ -72,12 +75,14 @@ class Classroomsubjectclass (db.Model):
 
     # Method to show data as dictionary object
     def json(self):
-        return {'name': self.name}
+        return {
+            'classroom_subject_class_id':self.classroom_subject_class_id,
+            'name': self.name}
 
     # Method to find the query element is existing or not
     @classmethod
     def find_by_id(cls, id):
-        return cls.query.filter_by(candidate_id=id).first()
+        return cls.query.filter_by(classroom_subject_class_id=id).first()
 
     # Method to find the query element is existing or not
     @classmethod
