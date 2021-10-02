@@ -6,11 +6,50 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()  # Creating database class
 
 
-classroomsubjectclasscandidate = db.Table('classroomsubjectclasscandidate',
-    db.Column('candidate_id',db.Integer,db.ForeignKey('candidate.candidate_id')),
-    db.Column('classroom_subject_class_id',db.Integer,db.ForeignKey('classroomsubjectclass.classroom_subject_class_id')),
-    db.Column('is_present',db.Boolean, unique=False, default=True)
-)
+#classroomsubjectclasscandidate = db.Table('classroomsubjectclasscandidate',
+#    db.Column('candidate_id',db.Integer,db.ForeignKey('candidate.candidate_id')),
+#    db.Column('classroom_subject_class_id',db.Integer,db.ForeignKey('classroomsubjectclass.classroom_subject_class_id')),
+#    db.Column('is_present',db.Boolean, unique=False, default=False)
+#)
+
+class Classroomsubjectclasscandidat(db.Model):
+    candidate_id = db.Column(db.Integer, db.ForeignKey('candidate.candidate_id'),
+                              primary_key=True)
+    classroom_subject_class_id = db.Column(db.Integer, db.ForeignKey('classroomsubjectclass.classroom_subject_class_id'),
+                               primary_key=True)
+    is_present=db.Column(db.Integer)
+    
+    candidate= db.relationship('Candidate')
+
+    def __init__(self, candidate_id, classroom_subject_class_id):
+        self.candidate_id = candidate_id
+        self.classroom_subject_class_id = classroom_subject_class_id
+        self.is_present=0
+
+    # Method to show data as dictionary object
+    def json(self):
+        return {
+            'candidate_id':self.candidate_id,
+            'classroom_subject_class_id':self.classroom_subject_class_id,
+            'is_present': self.is_present}
+
+
+    # Method to find the query element is existing or not
+    @classmethod
+    def find_by_id(cls, candidate_id,classroom_subject_class_id):
+        return cls.query.filter_by(candidate_id=candidate_id,classroom_subject_class_id=classroom_subject_class_id).first()
+
+ 
+    # Method to save data to database
+    def save_to(self):
+        db.session.add(self)
+        db.session.commit()
+
+    # Method to delete data from database
+    def delete_(self):
+        db.session.delete(self)
+        db.session.commit()
+
 
 class Candidate(db.Model):
 
@@ -65,8 +104,7 @@ class Classroomsubjectclass (db.Model):
     classroom_subject_class_id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(db.String(30), unique=True, nullable=False)
-    classroomsubjectclasscandidates = db.relationship('Candidate', secondary=classroomsubjectclasscandidate, lazy='dynamic',
-        backref=db.backref('classroomsubjectclass', lazy=True))
+    classroomsubjectclasscandidates = db.relationship('Classroomsubjectclasscandidat')
 
  
 

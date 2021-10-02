@@ -1,5 +1,5 @@
 # app.py#Import necessary packages
-from base import Candidate,Classroomsubjectclass,classroomsubjectclasscandidate, db
+from base import Candidate,Classroomsubjectclass,Classroomsubjectclasscandidat, db
 from flask import Flask
 from flask_restful import Resource, reqparse, Api  # Instantiate a flask object
 #import numpy as np
@@ -11,7 +11,7 @@ app = Flask(__name__)
 api = Api(app)
 
 # Setting the location for the sqlite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_one.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_one_v3.db'
 
 # Adding the configurations for the database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -132,12 +132,7 @@ api.add_resource(ClassroomsubjectclassAPI, '/classroomsubjectclass/<string:name>
 #api.add_resource(IrisPredict, '/iris')
 
 
-class CandidatesByClassroomsubjectclassAPI(Resource):
-
-     # Instantiating a parser object to hold data from message payload
-    parser = reqparse.RequestParser()
-    parser.add_argument('candidat_id', type=int, required=False,
-                        help='candidat_id of the candidate')
+class CandidateClassroomsubjectclassListAPI(Resource):
 
     # Creating the get method
     def get(self, id):
@@ -146,19 +141,54 @@ class CandidatesByClassroomsubjectclassAPI(Resource):
             return {'Candidates': list(map(lambda x: x.json(), item.classroomsubjectclasscandidates))}
         return {'Message': 'Classroom subject class is not found'}
     
-    # Creating the get method
-    def post(self, id):
+    
+class CandidateClassroomsubjectclassAPI(Resource):
+    # Instantiating a parser object to hold data from message payload
+    parser = reqparse.RequestParser()
+    parser.add_argument('is_present', type=int, required=False,
+                        help='presence of the candidate in classroom')
 
-        args = CandidatesByClassroomsubjectclassAPI.parser.parse_args()
-        item = Classroomsubjectclass.find_by_id(id)
+    # Creating the get method
+    def get(self, classroom_id,candidat_id):
+        item = Classroomsubjectclass.find_by_id(classroom_id)
         if item:
-            itemCandidat = Candidate.find_by_id(args['candidat_id'])
+            itemCandidat = Candidate.find_by_id(candidat_id)
             if itemCandidat:
-                item.classroomsubjectclasscandidates.append(itemCandidat)
-                item.save_to()
+                assoc = Classroomsubjectclasscandidat.query.filter_by(candidate_id=candidat_id, classroom_subject_class_id=classroom_id).first()
+                return {'Classroomsubjectclasscandidat':  assoc.json()}
+            return {'Message': 'Candidate is not found'}
+           
+        return {'Message': 'Classroom subject class is not found'}
+    
+   # Creating the get method
+    def post(self,classroom_id,candidat_id):
+
+       
+        item = Classroomsubjectclass.find_by_id(classroom_id)
+        if item:
+            itemCandidat = Candidate.find_by_id(candidat_id)
+            if itemCandidat:
+                assoc = Classroomsubjectclasscandidat(classroom_id,candidat_id)
+                assoc.candidate= itemCandidat
+                item.classroomsubjectclasscandidates.append(assoc)
+                db.session.commit()
                 return {'Candidates': list(map(lambda x: x.json(), item.classroomsubjectclasscandidates))}
             return {'Message': 'Candidate is not found'}
            
+        return {'Message': 'Classroom subject class is not found'}
+
+    # Creating the put method
+    def put(self,classroom_id,candidat_id):
+        args = CandidateClassroomsubjectclassAPI.parser.parse_args()
+        item = Classroomsubjectclass.find_by_id(classroom_id)
+        if item:
+            itemCandidat = Candidate.find_by_id(candidat_id)
+            if itemCandidat:
+                assoc = Classroomsubjectclasscandidat.query.filter_by(candidate_id=candidat_id, classroom_subject_class_id=classroom_id).first()
+                assoc.is_present=args['is_present']
+                assoc.save_to()
+                return {'Classroomsubjectclasscandidat':  assoc.json()}
+            return {'Message': 'Candidate is not found'}
         return {'Message': 'Classroom subject class is not found'}
 
 
@@ -171,9 +201,8 @@ class CandidatesByClassroomsubjectclassAPI(Resource):
 
 
 
-api.add_resource(CandidatesByClassroomsubjectclassAPI, '/classroomsubjectclasses/<int:id>/candidates',endpoint='Candidates_by_classroomsubjectclass')
-
-
+api.add_resource(CandidateClassroomsubjectclassListAPI, '/classroomsubjectclasses/<int:id>/candidates',endpoint='Candidates_by_classroomsubjectclass')
+api.add_resource(CandidateClassroomsubjectclassAPI, '/classroomsubjectclasses/<int:classroom_id>/candidates/<int:candidat_id>',endpoint='candidate_to_classroomsubjectclass')
 
 if __name__ == '__main__':
     # Run the applications
