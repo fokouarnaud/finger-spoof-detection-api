@@ -2,6 +2,19 @@
 from base import Candidate,Classroomsubjectclass,Classroomsubjectclasscandidat, db
 from flask import Flask
 from flask_restful import Resource, reqparse, Api  # Instantiate a flask object
+
+from imageio import imread
+from PIL import Image
+import base64
+import io
+import cv2
+import json
+import matplotlib.pyplot as plt
+from fingerphoto.utils import *
+from fingerphoto.utils2 import *
+from fingerphoto.constants import *
+import fingerphoto.fingerprint_feature_extractor
+
 #import numpy as np
 #import pickle
 
@@ -203,6 +216,56 @@ class CandidateClassroomsubjectclassAPI(Resource):
 
 api.add_resource(CandidateClassroomsubjectclassListAPI, '/classroomsubjectclasses/<int:id>/candidates',endpoint='Candidates_by_classroomsubjectclass')
 api.add_resource(CandidateClassroomsubjectclassAPI, '/classroomsubjectclasses/<int:classroom_id>/candidates/<int:candidat_id>',endpoint='candidate_to_classroomsubjectclass')
+
+
+    
+class FingerphotoProcessingAPI(Resource):
+    # Instantiating a parser object to hold data from message payload
+    parser = reqparse.RequestParser()
+    parser.add_argument('action', type=str, required=False,
+                        help='action in authentication process')
+    parser.add_argument('img', type=str, required=False,
+                        help='img of fingerphoto')
+   # Creating the get method
+    def post(self):
+
+        args = FingerphotoProcessingAPI.parser.parse_args()
+        b64_string=args['img']
+        # reconstruct image as an numpy array
+        img = imread(io.BytesIO(base64.b64decode(b64_string)))
+
+       
+
+        # finally convert RGB image to BGR for opencv
+        # and save result
+        cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+       
+        img= skinDetection(cv2_img)
+        #gray_img = grayscale_image(img)
+        padding,img = enhance_image_target(img)
+        #img = enhance_image(img)
+        img = thinning(img)
+
+        # show image
+        #plt.figure()
+        #plt.imshow(img, cmap="gray")
+        #plt.show()
+        b64_string = base64.b64encode(cv2.imencode('.jpg', img)[1]).decode()
+       
+       # Initiate ORB detector for matching keypoints
+        orb = cv2.ORB_create(MAX_FEATURES)
+        kp, des = get_feature_keypoint_and_descriptor(img, orb,padding)
+        kp_json =json.dumps([{'x':k.pt[0],'y':k.pt[1], 'size':k.size,'octave':k.octave,'class_id':k.class_id,'angle': k.angle, 'response': k.response} for k in kp])
+        des_json=json.dumps(des.tolist())
+
+        return {'action': args['action'],
+            'img': b64_string,
+            'keypoints':kp_json,
+            'descriptions':des_json
+            }
+       
+
+api.add_resource(FingerphotoProcessingAPI, '/fingerphoto',endpoint='fingerphoto_processing')
 
 if __name__ == '__main__':
     # Run the applications
