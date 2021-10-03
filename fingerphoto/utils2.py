@@ -163,7 +163,7 @@ def skinDetection(src):
 
     # Perform another OTSU threshold and search for biggest contour
     ret, skinMask = cv2.threshold(skinMask,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-    image, contours, hierarchy = cv2.findContours(skinMask,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
+    contours, hierarchy = cv2.findContours(skinMask,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
     cnt = max(contours, key=cv2.contourArea)
 
     # Create a new mask for the result image
