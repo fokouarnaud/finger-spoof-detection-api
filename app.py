@@ -2,14 +2,12 @@
 from base import Candidate,Classroomsubjectclass,Classroomsubjectclasscandidat, db
 from flask import Flask
 from flask_restful import Resource, reqparse, Api  # Instantiate a flask object
-
 from imageio import imread
-from PIL import Image
 import base64
 import io
 import cv2
 import json
-import matplotlib.pyplot as plt
+
 from fingerphoto.utils import *
 from fingerphoto.utils2 import *
 from fingerphoto.constants import *

@@ -3,8 +3,7 @@ import numpy as np
 import math 
 import copy
 from skimage.measure import label  
-from scipy import ndimage;
-from scipy import signal
+
 
 
 def get_skin_mask_cmyk(bgr):
@@ -672,7 +671,7 @@ def ridgeSegment(source,blockSize,threshold):
 #
 # See also: RIDGESEGMENT, RIDGEFREQ, RIDGEFILTER
 
-def ridgeOrientation_old(padded,ridgeSegment, gradientSigma, blockSigma,orientSmoothSigma):
+def ridgeOrientation(padded,ridgeSegment, gradientSigma, blockSigma,orientSmoothSigma):
    
     rows, cols = ridgeSegment.shape
 
@@ -749,58 +748,7 @@ def ridgeOrientation_old(padded,ridgeSegment, gradientSigma, blockSigma,orientSm
     result=cv2.multiply(result, scale)
     
     return result
-    
-def ridgeOrientation(padded,im, gradientsigma, blocksigma, orientsmoothsigma):
-    rows,cols = im.shape;
-    #Calculate image gradients.
-    sze = np.fix(6*gradientsigma);
-    if np.remainder(sze,2) == 0:
-        sze = sze+1;
-        
-    gauss = cv2.getGaussianKernel(np.int(sze),gradientsigma);
-    f = gauss * gauss.T;
-    
-    fy,fx = np.gradient(f);     #Gradient of Gaussian
-    
-    #Gx = ndimage.convolve(np.double(im),fx);
-    #Gy = ndimage.convolve(np.double(im),fy);
-    
-    Gx = signal.convolve2d(im,fx,mode='same');    
-    Gy = signal.convolve2d(im,fy,mode='same');
-    
-    Gxx = np.power(Gx,2);
-    Gyy = np.power(Gy,2);
-    Gxy = Gx*Gy;
-    
-    #Now smooth the covariance data to perform a weighted summation of the data.    
-    
-    sze = np.fix(6*blocksigma);
-    
-    gauss = cv2.getGaussianKernel(np.int(sze),blocksigma);
-    f = gauss * gauss.T;
-    
-    Gxx = ndimage.convolve(Gxx,f);
-    Gyy = ndimage.convolve(Gyy,f);
-    Gxy = 2*ndimage.convolve(Gxy,f);
-    
-    # Analytic solution of principal direction
-    denom = np.sqrt(np.power(Gxy,2) + np.power((Gxx - Gyy),2)) + np.finfo(float).eps;
-    
-    sin2theta = Gxy/denom;            # Sine and cosine of doubled angles
-    cos2theta = (Gxx-Gyy)/denom;
-    
-    
-    if orientsmoothsigma:
-        sze = np.fix(6*orientsmoothsigma);
-        if np.remainder(sze,2) == 0:
-            sze = sze+1;    
-        gauss = cv2.getGaussianKernel(np.int(sze),orientsmoothsigma);
-        f = gauss * gauss.T;
-        cos2theta = ndimage.convolve(cos2theta,f); # Smoothed sine and cosine of
-        sin2theta = ndimage.convolve(sin2theta,f); # doubled angles
-    
-    orientim = np.pi/2 + np.arctan2(sin2theta,cos2theta)/2;
-    return(orientim)
+
 # RIDGEFREQ - Calculates a ridge frequency image
 #
 # Function to estimate the fingerprint ridge frequency across a
@@ -1024,98 +972,6 @@ def ridgeFilter(padded,ridgeSegment, orientation, frequency, kx, ky, medianFreq)
 
     return (result,size)
 
-
-
-def ridgeFilter_old(padded,im, orient, freq, kx, ky,medianFreq):
-    angleInc = 3;
-    im = np.double(im);
-    rows,cols = im.shape;
-    newim = np.zeros((rows,cols), np.float32);
-    
-    freq_1d = np.reshape(freq,(1,rows*cols));
-    ind = np.where(freq_1d>0);
-    
-    ind = np.array(ind);
-    ind = ind[1,:];    
-    
-    # Round the array of frequencies to the nearest 0.01 to reduce the
-    # number of distinct frequencies we have to deal with.    
-    
-    non_zero_elems_in_freq = freq_1d[0][ind]; 
-    non_zero_elems_in_freq = np.double(np.round((non_zero_elems_in_freq*100)))/100;
-    
-    unfreq = np.unique(non_zero_elems_in_freq);
-
-    # Generate filters corresponding to these distinct frequencies and
-    # orientations in 'angleInc' increments.
-    
-    sigmax = 1/unfreq[0]*kx;
-    sigmay = 1/unfreq[0]*ky;
-    
-    sze = np.int(np.round(3*np.max([sigmax,sigmay])));
-    
-    x,y = np.meshgrid(np.linspace(-sze,sze,(2*sze + 1)),np.linspace(-sze,sze,(2*sze + 1)));
-    
-    reffilter = np.exp(-(( (np.power(x,2))/(sigmax*sigmax) + (np.power(y,2))/(sigmay*sigmay)))) * np.cos(2*np.pi*unfreq[0]*x); # this is the original gabor filter
-    
-    filt_rows, filt_cols = reffilter.shape;
-
-    angleRange = np.int(180 / angleInc)
-
-    gabor_filter = np.array(np.zeros((angleRange,filt_rows,filt_cols)));
-
-    for o in range(0, angleRange):
-        
-        # Generate rotated versions of the filter.  Note orientation
-        # image provides orientation *along* the ridges, hence +90
-        # degrees, and imrotate requires angles +ve anticlockwise, hence
-        # the minus sign.        
-        
-        rot_filt = scipy.ndimage.rotate(reffilter,-(o*angleInc + 90),reshape = False);
-        gabor_filter[o] = rot_filt;
-                
-    # Find indices of matrix points greater than maxsze from the image
-    # boundary
-    
-    maxsze = int(sze);   
-
-    temp = freq>0;    
-    validr,validc = np.where(temp)    
-    
-    temp1 = validr>maxsze;
-    temp2 = validr<rows - maxsze;
-    temp3 = validc>maxsze;
-    temp4 = validc<cols - maxsze;
-    
-    final_temp = temp1 & temp2 & temp3 & temp4;    
-    
-    finalind = np.where(final_temp);
-    
-    # Convert orientation matrix values from radians to an index value
-    # that corresponds to round(degrees/angleInc)    
-    
-    maxorientindex = np.round(180/angleInc);
-    orientindex = np.round(orient/np.pi*180/angleInc);
-    
-    #do the filtering    
-    
-    for i in range(0,rows):
-        for j in range(0,cols):
-            if(orientindex[i][j] < 1):
-                orientindex[i][j] = orientindex[i][j] + maxorientindex;
-            if(orientindex[i][j] > maxorientindex):
-                orientindex[i][j] = orientindex[i][j] - maxorientindex;
-    finalind_rows,finalind_cols = np.shape(finalind);
-    sze = int(sze);
-    for k in range(0,finalind_cols):
-        r = validr[finalind[0][k]];
-        c = validc[finalind[0][k]];
-        
-        img_block = im[r-sze:r+sze + 1][:,c-sze:c+sze + 1];
-        
-        newim[r][c] = np.sum(img_block * gabor_filter[int(orientindex[r][c]) - 1]);
-        
-    return(newim,sze)  
 
 
 
