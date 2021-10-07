@@ -1,7 +1,10 @@
 # app.py#Import necessary packages
 from base import Candidate,Classroomsubjectclass,Classroomsubjectclasscandidat, db
-from flask import Flask
+from flask import Flask, request, session, flash, redirect, \
+    url_for, jsonify,make_response
 from flask_restful import Resource, reqparse, Api  # Instantiate a flask object
+from celery import Celery
+
 from imageio import imread
 import base64
 import io
@@ -17,6 +20,12 @@ import fingerphoto.fingerprint_feature_extractor
 #import pickle
 
 app = Flask(__name__)
+
+app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
+app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery.conf.update(app.config)
 
 # Instantiate Api object
 api = Api(app)
@@ -215,8 +224,40 @@ class CandidateClassroomsubjectclassAPI(Resource):
 api.add_resource(CandidateClassroomsubjectclassListAPI, '/classroomsubjectclasses/<int:id>/candidates',endpoint='Candidates_by_classroomsubjectclass')
 api.add_resource(CandidateClassroomsubjectclassAPI, '/classroomsubjectclasses/<int:classroom_id>/candidates/<int:candidat_id>',endpoint='candidate_to_classroomsubjectclass')
 
+@celery.task(bind=True)
+def background_processing(self, b64_string):
+    # reconstruct image as an numpy array
+    img = imread(io.BytesIO(base64.b64decode(b64_string)))
 
+    cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     
+    img= skinDetection(cv2_img)
+    self.update_state(state='PROGRESS',
+                          meta={'current': 'skin detection end', 'total': '10',
+                                'status': ''})
+    padding,img = enhance_image_target(img)
+   
+    img = thinning(img)
+    self.update_state(state='PROGRESS',
+                          meta={'current': 'image enhancement', 'total': '10',
+                                'status': ''})
+
+    b64_string = base64.b64encode(cv2.imencode('.jpg', img)[1]).decode()
+    
+    # Initiate ORB detector for matching keypoints
+    orb = cv2.ORB_create(MAX_FEATURES)
+    kp, des = get_feature_keypoint_and_descriptor(img, orb,padding)
+    kp_json =json.dumps([{'x':k.pt[0],'y':k.pt[1], 'size':k.size,'octave':k.octave,'class_id':k.class_id,'angle': k.angle, 'response': k.response} for k in kp])
+    des_json=json.dumps(des.tolist())
+    return {'current': 100, 'total': 100, 'status': 'Task completed!',
+            'img': b64_string,
+            'keypoints':kp_json,
+            'descriptions':des_json
+                
+            }
+
+
+
 class FingerphotoProcessingAPI(Resource):
     # Instantiating a parser object to hold data from message payload
     parser = reqparse.RequestParser()
@@ -229,41 +270,53 @@ class FingerphotoProcessingAPI(Resource):
 
         args = FingerphotoProcessingAPI.parser.parse_args()
         b64_string=args['img']
-        # reconstruct image as an numpy array
-        img = imread(io.BytesIO(base64.b64decode(b64_string)))
+        task = background_processing.apply_async(args=[b64_string])
+        return make_response(jsonify({}), 202, {'Location': url_for('processing_status',
+                                                  task_id=task.id)})
 
-       
-
-        # finally convert RGB image to BGR for opencv
-        # and save result
-        cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-       
-        img= skinDetection(cv2_img)
-        #gray_img = grayscale_image(img)
-        padding,img = enhance_image_target(img)
-        #img = enhance_image(img)
-        img = thinning(img)
-
-        # show image
-        #plt.figure()
-        #plt.imshow(img, cmap="gray")
-        #plt.show()
-        b64_string = base64.b64encode(cv2.imencode('.jpg', img)[1]).decode()
-       
-       # Initiate ORB detector for matching keypoints
-        orb = cv2.ORB_create(MAX_FEATURES)
-        kp, des = get_feature_keypoint_and_descriptor(img, orb,padding)
-        kp_json =json.dumps([{'x':k.pt[0],'y':k.pt[1], 'size':k.size,'octave':k.octave,'class_id':k.class_id,'angle': k.angle, 'response': k.response} for k in kp])
-        des_json=json.dumps(des.tolist())
-
-        return {'action': args['action'],
-            'img': b64_string,
-            'keypoints':kp_json,
-            'descriptions':des_json
+class FingerphotoProcessingStatusAPI(Resource):
+    # Instantiating a parser object to hold data from message payload
+    parser = reqparse.RequestParser()
+    parser.add_argument('task_id', type=str, required=False,
+                        help='task id')
+   
+   # Creating the get method
+    def get(self):
+        args = FingerphotoProcessingStatusAPI.parser.parse_args()
+        task_id=args['task_id']
+        task = background_processing.AsyncResult(task_id)
+        if task.state == 'PENDING':
+            response = {
+                'state': task.state,
+                'current': 0,
+                'total': 1,
+                'status': 'Pending...'
             }
+        elif task.state != 'FAILURE':
+            response = {
+                'state': task.state,
+                'current': task.info.get('current', 0),
+                'total': task.info.get('total', 1),
+                'status': task.info.get('status', ''),
+                'img': task.info.get('img', ''),
+                'keypoints': task.info.get('keypoints', ''),
+                'descriptions': task.info.get('descriptions', '')
+            }
+            if 'result' in task.info:
+                response['result'] = task.info['result']
+        else:
+            # something went wrong in the background job
+            response = {
+                'state': task.state,
+                'current': 1,
+                'total': 1,
+                'status': str(task.info),  # this is the exception raised
+            }
+        return jsonify(response)
        
 
 api.add_resource(FingerphotoProcessingAPI, '/fingerphoto',endpoint='fingerphoto_processing')
+api.add_resource(FingerphotoProcessingStatusAPI, '/processingstatus',endpoint='processing_status')
 
 if __name__ == '__main__':
     # Run the applications
