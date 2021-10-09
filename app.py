@@ -20,7 +20,7 @@ import fingerphoto.fingerprint_feature_extractor
 
 from ssl import CERT_NONE, CERT_OPTIONAL, CERT_REQUIRED
 from celery import Celery
-import redis
+#import redis
 from urllib.parse import urlparse
 
 
@@ -28,25 +28,29 @@ app = Flask(__name__)
 
 # Set Redis connection:
 #os.environ["REDIS_URL"] = "redis://:p3d265f7864076fb556902fb0329250ee578799392d8510edc14a234d14bd52e6@ec2-3-210-77-18.compute-1.amazonaws.com:24550"
-r = redis.from_url(os.environ.get("REDISCLOUD_URL"))
+#r = redis.from_url(os.environ.get("REDISCLOUD_URL"))
+#r = redis.from_url('redis://localhost:6379/0')
 
-app.config['CELERY_broker_url'] = os.environ.get("REDISCLOUD_URL")
-app.config['result_backend'] = os.environ.get("REDISCLOUD_URL")
+app.config['BROKER_URL'] = os.environ.get("REDISCLOUD_URL")
+app.config['CELERY_RESULT_BACKEND'] = os.environ.get("REDISCLOUD_URL")
+
+#app.config['BROKER_URL'] = 'redis://localhost:6379/0'
+#app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 
 
-celery = Celery(app.name, broker_url=app.config['CELERY_broker_url'],
-result_backend=app.config['result_backend'])
+celery = Celery(app.name, broker_url=app.config['BROKER_URL'],
+result_backend=app.config['CELERY_RESULT_BACKEND'])
 celery.conf.update(app.config)
 
 
 #app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
 #app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 # Test the Redis connection:
-try: 
-    r.ping()
-    print ("Redis is connected!")
-except redis.ConnectionError:
-    print ("Redis connection error!")
+#try: 
+#    r.ping()
+#    print ("Redis is connected!")
+#except redis.ConnectionError:
+#    print ("Redis connection error!")
 
 # Instantiate Api object
 api = Api(app)
