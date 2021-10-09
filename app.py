@@ -46,9 +46,6 @@ app.config['CELERY_RESULT_BACKEND'] = os.environ.get("REDIS_URL")
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'],
              broker_use_ssl = { 
                  'ssl_cert_reqs':CERT_NONE 
-            }, 
-             redis_backend_use_ssl = {  
-                 'ssl_cert_reqs':CERT_NONE
             }
 
 )
