@@ -30,8 +30,8 @@ app = Flask(__name__)
 #os.environ["REDIS_URL"] = "redis://:p3d265f7864076fb556902fb0329250ee578799392d8510edc14a234d14bd52e6@ec2-3-210-77-18.compute-1.amazonaws.com:24550"
 r = redis.from_url(os.environ.get("REDISCLOUD_URL"))
 
-app.config['CELERY_broker_url'] = os.environ.get("REDIS_URL")
-app.config['result_backend'] = os.environ.get("REDIS_URL")
+app.config['CELERY_broker_url'] = os.environ.get("REDISCLOUD_URL")
+app.config['result_backend'] = os.environ.get("REDISCLOUD_URL")
 
 
 celery = Celery(app.name, broker_url=app.config['CELERY_broker_url'],
