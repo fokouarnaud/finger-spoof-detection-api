@@ -44,7 +44,6 @@ app.config['CELERY_RESULT_BACKEND'] = os.environ.get("REDIS_URL")
 #app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'],
-backend=app.config['CELERY_RESULT_BACKEND'],
              broker_use_ssl = { 
                  'ssl_cert_reqs': ssl.CERT_REQUIRED 
             }, 
