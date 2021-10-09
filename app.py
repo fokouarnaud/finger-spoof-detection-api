@@ -43,15 +43,7 @@ app.config['CELERY_RESULT_BACKEND'] = os.environ.get("REDIS_URL")
 
 #app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 
-celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'],
-             broker_use_ssl = { 
-                 'ssl_cert_reqs': ssl.CERT_REQUIRED 
-            }, 
-             redis_backend_use_ssl = {  
-                 'ssl_cert_reqs': ssl.CERT_REQUIRED
-            }
-
-)
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
 
 # Instantiate Api object
