@@ -3,10 +3,8 @@ from base import Candidate,Classroomsubjectclass,Classroomsubjectclasscandidat, 
 from flask import Flask, request, session, flash, redirect, \
     url_for, jsonify,make_response
 from flask_restful import Resource, reqparse, Api  # Instantiate a flask object
-from celery import Celery
-import redis
-from urllib.parse import urlparse
-from ssl import CERT_NONE, CERT_OPTIONAL, CERT_REQUIRED
+
+
 
 from imageio import imread
 import base64
@@ -20,28 +18,22 @@ from fingerphoto.utils2 import *
 from fingerphoto.constants import *
 import fingerphoto.fingerprint_feature_extractor
 
-#import numpy as np
-#import pickle
+from ssl import CERT_NONE, CERT_OPTIONAL, CERT_REQUIRED
+from celery import Celery
+import redis
+from urllib.parse import urlparse
+
 
 app = Flask(__name__)
 
 # Set Redis connection:
 #os.environ["REDIS_URL"] = "rediss://:p3d265f7864076fb556902fb0329250ee578799392d8510edc14a234d14bd52e6@ec2-3-210-77-18.compute-1.amazonaws.com:24550"
 url = urlparse(os.environ.get("REDIS_URL"))
-r = redis.Redis(host=url.hostname, port=url.port, db=1, username=url.username, password=url.password, ssl=True, ssl_cert_reqs=CERT_NONE)
+r = redis.Redis(host=url.hostname, port=url.port,  username=url.username, password=url.password, ssl=True, ssl_cert_reqs=CERT_NONE)
  
-# Test the Redis connection:
-try: 
-    r.ping()
-    print ("Redis is connected!")
-except redis.ConnectionError:
-    print ("Redis connection error!")
-
 app.config['CELERY_BROKER_URL'] = os.environ.get("REDIS_URL")
 app.config['CELERY_RESULT_BACKEND'] = os.environ.get("REDIS_URL")
-#app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
 
-#app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'],
              broker_use_ssl = { 
@@ -49,6 +41,16 @@ celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'],
             }
 )
 celery.conf.update(app.config)
+
+
+#app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
+#app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+# Test the Redis connection:
+try: 
+    r.ping()
+    print ("Redis is connected!")
+except redis.ConnectionError:
+    print ("Redis connection error!")
 
 # Instantiate Api object
 api = Api(app)
