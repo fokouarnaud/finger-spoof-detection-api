@@ -32,7 +32,7 @@ app = Flask(__name__)
 #r = redis.from_url('redis://localhost:6379/0')
 
 app.config['BROKER_URL'] = os.environ.get("REDISCLOUD_URL")
-app.config['CELERY_RESULT_BACKEND'] = os.environ.get("REDISCLOUD_URL")
+app.config['result_backend'] = os.environ.get("REDISCLOUD_URL")
 
 #app.config['BROKER_URL'] = 'redis://localhost:6379/0'
 #app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
