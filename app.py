@@ -29,7 +29,7 @@ app = Flask(__name__)
 # Set Redis connection:
 #os.environ["REDIS_URL"] = "rediss://:p3d265f7864076fb556902fb0329250ee578799392d8510edc14a234d14bd52e6@ec2-3-210-77-18.compute-1.amazonaws.com:24550"
 url = urlparse(os.environ.get("REDIS_URL"))
-r = redis.Redis(host=url.hostname, port=url.port,  username=url.username, password=url.password, ssl_cert_reqs='none')
+r = redis.Redis(host=url.hostname, port=url.port,  username=url.username, password=url.password,ssl=True, ssl_cert_reqs=None)
  
 app.config['CELERY_BROKER_URL'] = os.environ.get("REDIS_URL")
 app.config['CELERY_RESULT_BACKEND'] = os.environ.get("REDIS_URL")
@@ -37,7 +37,7 @@ app.config['CELERY_RESULT_BACKEND'] = os.environ.get("REDIS_URL")
 
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'],
              broker_use_ssl = { 
-                 'ssl_cert_reqs':'none' 
+                 'ssl_cert_reqs':CERT_NONE 
             }
 )
 celery.conf.update(app.config)
