@@ -296,7 +296,7 @@ class FingerphotoProcessingAPI(Resource):
         args = FingerphotoProcessingAPI.parser.parse_args()
         b64_string=args['img']
         task = background_processing.apply_async(args=[b64_string])
-        return make_response(jsonify({}), 202, {'Location': url_for('processing_status',
+        return make_response(jsonify({'task_id':task.id}), 202, {'Location': url_for('processing_status',
                                                   task_id=task.id)})
 
 class FingerphotoProcessingStatusAPI(Resource):
