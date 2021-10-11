@@ -319,16 +319,13 @@ class FingerphotoProcessingStatusAPI(Resource):
             }
         elif task.state != 'FAILURE':
             response = {
-                'state': task.state,
                 'current': task.info.get('current', 0),
-                'total': task.info.get('total', 1),
                 'status': task.info.get('status', ''),
                 'img': task.info.get('img', ''),
                 'keypoints': task.info.get('keypoints', ''),
                 'descriptions': task.info.get('descriptions', '')
             }
-            if 'result' in task.info:
-                response['result'] = task.info['result']
+           
         else:
             # something went wrong in the background job
             response = {
