@@ -277,7 +277,7 @@ def background_processing(self, b64_string):
     return {'current': 100, 'total': 100, 'status': 'Task completed!',
             'img': b64_string,
             'keypoints':kp_json,
-            'descriptions':des_json
+            'descriptors':des_json
                 
             }
 
@@ -323,7 +323,7 @@ class FingerphotoProcessingStatusAPI(Resource):
                 'status': task.info.get('status', ''),
                 'img': task.info.get('img', ''),
                 'keypoints': task.info.get('keypoints', ''),
-                'descriptions': task.info.get('descriptions', '')
+                'descriptors': task.info.get('descriptors', '')
             }
            
         else:
