@@ -56,7 +56,7 @@ celery.conf.update(app.config)
 api = Api(app)
 
 # Setting the location for the sqlite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_one_v3.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_one_v4.db'
 
 # Adding the configurations for the database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -129,7 +129,7 @@ class CandidateAPI(Resource):
 class CandidateListAPI(Resource):  # Defining the get method
     def get(self):
         # Adding the URIs to the api
-        return {'Candidates': list(map(lambda x: x.json(), Candidate.query.all()))}
+        return jsonify(list(map(lambda x: x.json(), Candidate.query.all())))
 
 api.add_resource(CandidateAPI, '/candidate/<string:name>',endpoint='candidate')
 api.add_resource(CandidateListAPI, '/candidates',endpoint='candidates')
@@ -183,7 +183,7 @@ class CandidateClassroomsubjectclassListAPI(Resource):
     def get(self, id):
         item = Classroomsubjectclass.find_by_id(id)
         if item:
-            return {'Candidates': list(map(lambda x: x.json(), item.classroomsubjectclasscandidates))}
+            return jsonify(list(map(lambda x: x.json(), item.classroomsubjectclasscandidates)))
         return {'Message': 'Classroom subject class is not found'}
     
     
@@ -217,7 +217,7 @@ class CandidateClassroomsubjectclassAPI(Resource):
                 assoc.candidate= itemCandidat
                 item.classroomsubjectclasscandidates.append(assoc)
                 db.session.commit()
-                return {'Candidates': list(map(lambda x: x.json(), item.classroomsubjectclasscandidates))}
+                return jsonify(list(map(lambda x: x.json(), item.classroomsubjectclasscandidates)))
             return {'Message': 'Candidate is not found'}
            
         return {'Message': 'Classroom subject class is not found'}
