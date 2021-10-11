@@ -258,13 +258,13 @@ def background_processing(self, b64_string):
     
     img= skinDetection(cv2_img)
     self.update_state(state='PROGRESS',
-                          meta={'current': 'skin detection end', 'total': '10',
+                          meta={'current': 10, 'total': '10',
                                 'status': ''})
     padding,img = enhance_image_target(img)
    
     img = thinning(img)
     self.update_state(state='PROGRESS',
-                          meta={'current': 'image enhancement', 'total': '10',
+                          meta={'current': 70, 'total': '10',
                                 'status': ''})
 
     b64_string = base64.b64encode(cv2.imencode('.jpg', img)[1]).decode()
