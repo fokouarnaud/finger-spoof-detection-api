@@ -183,7 +183,16 @@ class CandidateClassroomsubjectclassListAPI(Resource):
     def get(self, id):
         item = Classroomsubjectclass.find_by_id(id)
         if item:
-            return jsonify(list(map(lambda x: x.json(), item.classroomsubjectclasscandidates)))
+            candidatList = Candidate.query\
+            .join(Classroomsubjectclasscandidat, Candidate.candidate_id == Classroomsubjectclasscandidat.candidate_id)\
+            .add_columns(Candidate.candidate_id, Candidate.name, Candidate.keypoints,Candidate.descriptors,Classroomsubjectclasscandidat.is_present,Classroomsubjectclasscandidat.classroom_subject_class_id)\
+            .filter(Candidate.candidate_id == Classroomsubjectclasscandidat.candidate_id)\
+            .filter(Classroomsubjectclasscandidat.classroom_subject_class_id == id)
+            return jsonify(list(map(lambda x: {
+            'candidate_id':x.candidate_id,
+            'classroom_subject_class_id':x.classroom_subject_class_id,
+            'is_present': x.is_present}
+            , candidatList)))
         return {'Message': 'Classroom subject class is not found'}
     
     
@@ -199,7 +208,7 @@ class CandidateClassroomsubjectclassAPI(Resource):
         if item:
             itemCandidat = Candidate.find_by_id(candidat_id)
             if itemCandidat:
-                assoc = Classroomsubjectclasscandidat.query.filter_by(candidate_id=candidat_id, classroom_subject_class_id=classroom_id).first()
+                assoc = Classroomsubjectclasscandidat.query.filter_by(candidate_id=candidat_id, classroom_subject_class_id=classroom_id).first() 
                 return {'Classroomsubjectclasscandidat':  assoc.json()}
             return {'Message': 'Candidate is not found'}
            
