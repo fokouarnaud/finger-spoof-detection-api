@@ -58,9 +58,9 @@ class Candidate(db.Model):
 
     name = db.Column(db.String(30), unique=True, nullable=False)
 
-    keypoints = db.Column(db.String(429400000), unique=False, nullable=False)
+    keypoints = db.Column(db.String(10005760), unique=False, nullable=False)
 
-    descriptors = db.Column(db.String(429400000), unique=False, nullable=False)
+    descriptors = db.Column(db.String(10005760), unique=False, nullable=False)
 
  
 
