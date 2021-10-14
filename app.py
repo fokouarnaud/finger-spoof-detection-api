@@ -192,13 +192,9 @@ class CandidateClassroomsubjectclassListAPI(Resource):
             'candidate_id':x.candidate_id,
             'classroom_subject_class_id':x.classroom_subject_class_id,
             'is_present': x.is_present,
-            'candidate':{
-                'id':x.candidate_id,
-                'name': x.name,
-                'keypoints':x.keypoints,
-                'descriptors':x.descriptors
-            }
-            
+            'name_candidate': x.name,
+            'keypoints':x.keypoints,
+            'descriptors':x.descriptors
             }
             , candidatList)))
         return {'Message': 'Classroom subject class is not found'}
