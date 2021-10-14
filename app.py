@@ -31,11 +31,11 @@ app = Flask(__name__)
 #r = redis.from_url(os.environ.get("REDISCLOUD_URL"))
 #r = redis.from_url('redis://localhost:6379/0')
 
-app.config['CELERY_broker_url'] = os.environ.get("REDISCLOUD_URL")
-app.config['result_backend'] = os.environ.get("REDISCLOUD_URL")
+#app.config['CELERY_broker_url'] = os.environ.get("REDISCLOUD_URL")
+#app.config['result_backend'] = os.environ.get("REDISCLOUD_URL")
 
-#app.config['BROKER_URL'] = 'redis://localhost:6379/0'
-#app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+app.config['CELERY_broker_url'] = 'redis://localhost:6379/0'
+app.config['result_backend'] = 'redis://localhost:6379/0'
 
 
 celery = Celery(app.name, broker_url=app.config['result_backend'],
@@ -168,7 +168,7 @@ class ClassroomsubjectclassAPI(Resource):
 class ClassroomsubjectclassListAPI(Resource):  # Defining the get method
     def get(self):
         # Adding the URIs to the api
-        return {'Classroomsubjectclass': list(map(lambda x: x.json(), Classroomsubjectclass.query.all()))}
+        return jsonify(list(map(lambda x: x.json(), Classroomsubjectclass.query.all())))
 
 
 api.add_resource(ClassroomsubjectclassListAPI, '/classroomsubjectclasses',endpoint='classroomsubjectclasses')
@@ -191,7 +191,15 @@ class CandidateClassroomsubjectclassListAPI(Resource):
             return jsonify(list(map(lambda x: {
             'candidate_id':x.candidate_id,
             'classroom_subject_class_id':x.classroom_subject_class_id,
-            'is_present': x.is_present}
+            'is_present': x.is_present,
+            'candidate':{
+                'id':x.candidate_id,
+                'name': x.name,
+                'keypoints':x.keypoints,
+                'descriptors':x.descriptors
+            }
+            
+            }
             , candidatList)))
         return {'Message': 'Classroom subject class is not found'}
     
