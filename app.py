@@ -57,7 +57,10 @@ api = Api(app)
 
 # Setting the location for the sqlite database
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_one_v6.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("HEROKU_POSTGRESQL_CHARCOAL_URL_2")
+uri_db = os.getenv("HEROKU_POSTGRESQL_CHARCOAL_URL")  # or other relevant config var
+if uri_db.startswith("postgres://"):
+    uri_db = uri_db.replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = uri_db
 
 # Adding the configurations for the database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
