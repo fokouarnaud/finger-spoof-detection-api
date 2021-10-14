@@ -56,7 +56,7 @@ celery.conf.update(app.config)
 api = Api(app)
 
 # Setting the location for the sqlite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_one_v4.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_one_v5.db'
 
 # Adding the configurations for the database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
