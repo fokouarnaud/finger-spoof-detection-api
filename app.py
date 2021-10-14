@@ -56,7 +56,8 @@ celery.conf.update(app.config)
 api = Api(app)
 
 # Setting the location for the sqlite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_one_v6.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_one_v6.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("HEROKU_POSTGRESQL_CHARCOAL_URL")
 
 # Adding the configurations for the database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
