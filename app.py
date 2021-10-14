@@ -31,11 +31,11 @@ app = Flask(__name__)
 #r = redis.from_url(os.environ.get("REDISCLOUD_URL"))
 #r = redis.from_url('redis://localhost:6379/0')
 
-#app.config['CELERY_broker_url'] = os.environ.get("REDISCLOUD_URL")
-#app.config['result_backend'] = os.environ.get("REDISCLOUD_URL")
+app.config['CELERY_broker_url'] = os.environ.get("REDISCLOUD_URL")
+app.config['result_backend'] = os.environ.get("REDISCLOUD_URL")
 
-app.config['CELERY_broker_url'] = 'redis://localhost:6379/0'
-app.config['result_backend'] = 'redis://localhost:6379/0'
+#app.config['CELERY_broker_url'] = 'redis://localhost:6379/0'
+#app.config['result_backend'] = 'redis://localhost:6379/0'
 
 
 celery = Celery(app.name, broker_url=app.config['result_backend'],
