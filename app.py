@@ -285,11 +285,11 @@ def background_processing(self, b64_string):
     # Initiate ORB detector for matching keypoints
     orb = cv2.ORB_create(MAX_FEATURES)
     kp, des = get_feature_keypoint_and_descriptor(img, orb,padding)
-    kp_json =json.dumps([{'x':k.pt[0],'y':k.pt[1], 'size':k.size,'octave':k.octave,'class_id':k.class_id,'angle': k.angle, 'response': k.response} for k in kp])
+    #kp_json =json.dumps([{'x':k.pt[0],'y':k.pt[1], 'size':k.size,'octave':k.octave,'class_id':k.class_id,'angle': k.angle, 'response': k.response} for k in kp])
     des_json=json.dumps(des.tolist())
     return {'current': 100, 'total': 100, 'status': 'Task completed!',
             'img': b64_string,
-            'keypoints':kp_json,
+            #'keypoints':kp_json,
             'descriptors':des_json
                 
             }
@@ -333,9 +333,9 @@ class FingerphotoProcessingStatusAPI(Resource):
         elif task.state != 'FAILURE':
             response = {
                 'current': task.info.get('current', 0),
-                'status': task.info.get('status', ''),
+                #'status': task.info.get('status', ''),
                 'img': task.info.get('img', ''),
-                'keypoints': task.info.get('keypoints', ''),
+               # 'keypoints': task.info.get('keypoints', ''),
                 'descriptors': task.info.get('descriptors', '')
             }
            
