@@ -157,7 +157,7 @@ class CandidateAuthenticateAPI(Resource):
             len_best_matches=15
 
             query_des= json.loads(args['descriptors'])
-            trained_feature_des=item.descriptors
+            trained_feature_des=json.loads(item.descriptors)
            
             bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
            
