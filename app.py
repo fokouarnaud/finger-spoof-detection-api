@@ -135,9 +135,47 @@ class CandidateListAPI(Resource):  # Defining the get method
         # Adding the URIs to the api
         return jsonify(list(map(lambda x: x.json(), Candidate.query.all())))
 
+
+
+class CandidateAuthenticateAPI(Resource):
+
+    # Instantiating a parser object to hold data from message payload
+    parser = reqparse.RequestParser()
+    parser.add_argument('keypoints', type=str, required=False,
+                        help='keypoints of the candidate')
+    parser.add_argument('descriptors', type=str, required=False, help='descriptions of the candidate')
+    
+
+    # Creating the post method
+    def post(self, candidate_id):
+
+        item = Candidate.find_by_id(candidate_id)
+        if item:
+            args = CandidateAPI.parser.parse_args()
+            
+            distance_threshold=50
+            len_best_matches=15
+
+            query_des= json.loads(args['descriptors'])
+            trained_feature_des=item.descriptors
+           
+            bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+           
+            matches = bf.match(query_des, trained_feature_des)
+            matches.sort(key=lambda x: x.distance, reverse=False) # sort matches based on feature distance
+            best_matches = [m.distance for m in matches if m.distance < distance_threshold]
+            result = len(best_matches) # matching function = length of best matches to given threshold
+            return { 
+                'candidate_id':item.candidate_id,
+                'name': item.name,
+                'match': 1 if (result > len_best_matches) else 0
+            }
+        return {'Message': 'Candidate is not found'}
+
+
 api.add_resource(CandidateAPI, '/candidate/<string:name>',endpoint='candidate')
 api.add_resource(CandidateListAPI, '/candidates',endpoint='candidates')
-
+api.add_resource(CandidateAuthenticateAPI, '/candidates/<int:candidate_id>/authenticate',endpoint='candidate_authenticate')
 
 class ClassroomsubjectclassAPI(Resource):
 
