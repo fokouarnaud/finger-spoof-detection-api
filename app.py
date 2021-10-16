@@ -158,13 +158,13 @@ class CandidateAuthenticateAPI(Resource):
             len_best_matches=15
 
             query_des= np.array(json.loads(args['descriptors']),dtype=np.float32)
-            trained_feature_des=np.array(json.loads(item.descriptors),dtype=np.float32)
+            #trained_feature_des=np.array(json.loads(item.descriptors),dtype=np.float32)
            
             print('query_des',query_des)
-            print('trained_feature_des',trained_feature_des)
+            print('trained_feature_des',query_des)
             bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
            
-            matches = bf.match(query_des, trained_feature_des)
+            matches = bf.match(query_des, query_des)
             matches.sort(key=lambda x: x.distance, reverse=False) # sort matches based on feature distance
             best_matches = [m.distance for m in matches if m.distance < distance_threshold]
             result = len(best_matches) # matching function = length of best matches to given threshold
