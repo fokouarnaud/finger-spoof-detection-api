@@ -12,6 +12,7 @@ import io
 import cv2
 import json
 import os
+import numpy as np
 
 from fingerphoto.utils import *
 from fingerphoto.utils2 import *
@@ -156,8 +157,8 @@ class CandidateAuthenticateAPI(Resource):
             distance_threshold=50
             len_best_matches=15
 
-            query_des= json.loads(args['descriptors'])
-            trained_feature_des=json.loads(item.descriptors)
+            query_des= np.asarray(json.loads(args['descriptors']),dtype=np.float32)
+            trained_feature_des=np.asarray(json.loads(item.descriptors),dtype=np.float32)
            
             bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
            
