@@ -156,13 +156,14 @@ class CandidateAuthenticateAPI(Resource):
             
             distance_threshold=50
             len_best_matches=15
-
-            query_des=np.fromiter(json.loads(args['descriptors']),dtype=np.uint8)
-            #trained_feature_des=np.array(json.loads(item.descriptors),dtype=np.float32)
+            query_des_json=json.loads(args['descriptors'])
+            trained_feature_des_json=json.loads(item.descriptors)
+            query_des=np.array(query_des_json['data'],dtype=query_des_json['dtype'])
+            trained_feature_des=np.array(trained_feature_des_json['data'],trained_feature_des_json['dtype'])
            
             bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
            
-            matches = bf.match(query_des, query_des)
+            matches = bf.match(query_des, trained_feature_des)
             matches.sort(key=lambda x: x.distance, reverse=False) # sort matches based on feature distance
             best_matches = [m.distance for m in matches if m.distance < distance_threshold]
             result = len(best_matches) # matching function = length of best matches to given threshold
@@ -241,7 +242,8 @@ class CandidateClassroomsubjectclassListAPI(Resource):
             }
             , candidatList)))
         return {'Message': 'Classroom subject class is not found'}
-    
+
+   
     
 class CandidateClassroomsubjectclassAPI(Resource):
     # Instantiating a parser object to hold data from message payload
@@ -293,12 +295,19 @@ class CandidateClassroomsubjectclassAPI(Resource):
         return {'Message': 'Classroom subject class is not found'}
 
 
-    def delete(self, id):
-        item = Classroomsubjectclass.find_by_id(id)
+    def delete(self,classroom_id,candidat_id):
+        item = Classroomsubjectclass.find_by_id(classroom_id)
         if item:
-            item.delete_()
-            return {'Message': '{} has been deleted from records'.format(id)}
-        return {'Message': '{} is already not on the list'.format(id)}
+            itemCandidat = Candidate.find_by_id(candidat_id)
+            if itemCandidat:
+                assoc = Classroomsubjectclasscandidat.query.filter_by(candidate_id=candidat_id, classroom_subject_class_id=classroom_id).first()
+                if assoc :
+                    assoc.delete_()
+                    return {'Message': '{} has been deleted from records'.format(classroom_id)}
+                return {'Message': '{} is already not on the list'.format(classroom_id)}
+            return {'Message': 'Candidate is not found'}   
+        return {'Message': 'Classroom subject class is not found'}
+        
 
 
 
@@ -328,8 +337,10 @@ def background_processing(self, b64_string):
     # Initiate ORB detector for matching keypoints
     orb = cv2.ORB_create(MAX_FEATURES)
     kp, des = get_feature_keypoint_and_descriptor(img, orb,padding)
+    rows,cols  =des.shape
+    dtype=des.dtype
     #kp_json =json.dumps([{'x':k.pt[0],'y':k.pt[1], 'size':k.size,'octave':k.octave,'class_id':k.class_id,'angle': k.angle, 'response': k.response} for k in kp])
-    des_json=json.dumps(des.tolist())
+    des_json=json.dumps({'rows':rows,'cols':cols,'dtype':dtype,'data':des.tolist()})
     return {'current': 100, 'total': 100, 'status': 'Task completed!',
             'img': b64_string,
             #'keypoints':kp_json,
