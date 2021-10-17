@@ -158,8 +158,8 @@ class CandidateAuthenticateAPI(Resource):
             len_best_matches=15
             query_des_json=json.loads(args['descriptors'])
             trained_feature_des_json=json.loads(item.descriptors)
-            query_des=np.array(query_des_json['data'],dtype=query_des_json['dtype'])
-            trained_feature_des=np.array(trained_feature_des_json['data'],trained_feature_des_json['dtype'])
+            query_des=np.array(query_des_json['data'],dtype=np.float32)
+            trained_feature_des=np.array(trained_feature_des_json['data'],dtype=np.float32)
            
             bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
            
@@ -338,9 +338,8 @@ def background_processing(self, b64_string):
     orb = cv2.ORB_create(MAX_FEATURES)
     kp, des = get_feature_keypoint_and_descriptor(img, orb,padding)
     rows,cols  =des.shape
-    dtype=des.dtype
     #kp_json =json.dumps([{'x':k.pt[0],'y':k.pt[1], 'size':k.size,'octave':k.octave,'class_id':k.class_id,'angle': k.angle, 'response': k.response} for k in kp])
-    des_json=json.dumps({'rows':rows,'cols':cols,'dtype':dtype,'data':des.tolist()})
+    des_json=json.dumps({'rows':rows,'cols':cols,'data':des.tolist()})
     return {'current': 100, 'total': 100, 'status': 'Task completed!',
             'img': b64_string,
             #'keypoints':kp_json,
