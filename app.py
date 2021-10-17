@@ -337,9 +337,9 @@ def background_processing(self, b64_string):
     # Initiate ORB detector for matching keypoints
     orb = cv2.ORB_create(MAX_FEATURES)
     kp, des = get_feature_keypoint_and_descriptor(img, orb,padding)
-    rows,cols  =des.shape
+    
     #kp_json =json.dumps([{'x':k.pt[0],'y':k.pt[1], 'size':k.size,'octave':k.octave,'class_id':k.class_id,'angle': k.angle, 'response': k.response} for k in kp])
-    des_json=json.dumps({'rows':rows,'cols':cols,'data':des.tolist()})
+    des_json=json.dumps({'data':des.tolist()})
     return {'current': 100, 'total': 100, 'status': 'Task completed!',
             'img': b64_string,
             #'keypoints':kp_json,
