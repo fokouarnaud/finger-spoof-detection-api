@@ -290,7 +290,7 @@ class CandidateClassroomsubjectclassAPI(Resource):
                 assoc = Classroomsubjectclasscandidat.query.filter_by(candidate_id=candidat_id, classroom_subject_class_id=classroom_id).first()
                 assoc.is_present=args['is_present']
                 assoc.save_to()
-                return {'Classroomsubjectclasscandidat':  assoc.json()}
+                return assoc.json()
             return {'Message': 'Candidate is not found'}
         return {'Message': 'Classroom subject class is not found'}
 
