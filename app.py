@@ -186,7 +186,7 @@ class CandidateAuthenticateAPI(Resource):
                     return { 
                         'candidate_id':item.candidate_id,
                         'name': item.name,
-                        'match': 1 if (result > len_best_matches) else 0
+                        'ratio_match': 1 if (result > len_best_matches) else 0
                     }
                 return {'Message': 'trained_feature_des is None'}   
             return {'Message': 'query_des is None'} 
