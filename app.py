@@ -4,7 +4,9 @@ from flask import Flask, request, session, flash, redirect, \
     url_for, jsonify,make_response
 from flask_restful import Resource, reqparse, Api  # Instantiate a flask object
 
-
+import logging
+from logging.handlers import RotatingFileHandler
+import sys
 
 from imageio import imread
 import base64
@@ -160,7 +162,10 @@ class CandidateAuthenticateAPI(Resource):
             trained_feature_des_json=json.loads(item.descriptors)
             query_des=np.asarray(query_des_json['data'],dtype=np.float32)
             trained_feature_des=np.asarray(trained_feature_des_json['data'],dtype=np.float32)
-           
+            
+            app.logger.info("query_des : {}".format(query_des))
+            app.logger.info("trained_feature_des : {}".format(trained_feature_des))
+            
             bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
             
             if query_des is not None:
@@ -412,5 +417,10 @@ api.add_resource(FingerphotoProcessingAPI, '/fingerphoto',endpoint='fingerphoto_
 api.add_resource(FingerphotoProcessingStatusAPI, '/processingstatus',endpoint='processing_status')
 
 if __name__ == '__main__':
+
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
+
     # Run the applications
     app.run()
