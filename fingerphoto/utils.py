@@ -33,7 +33,7 @@ def get_feature_keypoint_and_descriptor_old(image,orb,padding,border=1):
     #print('des',des)
     return (kp, des)
 
-def get_feature_keypoint_and_descriptor_old2(image,orb,padding,border=1):
+def get_feature_keypoint_and_descriptor(image,orb,padding,border=1):
     # Harris corners
     harris_corners = cv2.cornerHarris(image, 3, 3, 0.04)
     harris_normalized = cv2.normalize(harris_corners, 0, 255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32FC1)
@@ -70,7 +70,7 @@ def minutiaeToKeyPoints_old(FeaturesTerminations, FeaturesBifurcations):
 
 
 
-def get_feature_keypoint_and_descriptor(image,orb,padding,border=1):
+def get_feature_keypoint_and_descriptor_old2(image,orb,padding,border=1):
     DispImg, FeaturesTerminations, FeaturesBifurcations = extract_minutiae_features2(image, showResult=False)
     keypoints=minutiaeToKeyPoints_old( FeaturesTerminations, FeaturesBifurcations)
     _, des = orb.compute(image, keypoints)
