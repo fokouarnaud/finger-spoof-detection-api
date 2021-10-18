@@ -158,7 +158,6 @@ class CandidateAuthenticateAPI(Resource):
             len_best_matches=15
             query_des_json=json.loads(args['descriptors'])
             trained_feature_des_json=json.loads(item.descriptors)
-
             query_des=np.asarray(query_des_json['data'],dtype=np.float32)
             trained_feature_des=np.asarray(trained_feature_des_json['data'],dtype=np.float32)
            
@@ -167,15 +166,14 @@ class CandidateAuthenticateAPI(Resource):
             if query_des is not None:
                 if  trained_feature_des is not None:
            
-                    #matches = bf.match(query_des, trained_feature_des)
-                    #matches.sort(key=lambda x: x.distance, reverse=False) # sort matches based on feature distance
-                   # best_matches = [m.distance for m in matches if m.distance < distance_threshold]
-                    #result = len(best_matches) # matching function = length of best matches to given threshold
+                    matches = bf.match(trained_feature_des_json, trained_feature_des)
+                    matches.sort(key=lambda x: x.distance, reverse=False) # sort matches based on feature distance
+                    best_matches = [m.distance for m in matches if m.distance < distance_threshold]
+                    result = len(best_matches) # matching function = length of best matches to given threshold
                     return { 
                         'candidate_id':item.candidate_id,
                         'name': item.name,
-                        'query_des': query_des,
-                       # 'match': 1 if (result > len_best_matches) else 0
+                        'match': 1 if (result > len_best_matches) else 0
                     }
                 return {'Message': 'trained_feature_des is None'}   
             return {'Message': 'query_des is None'} 
