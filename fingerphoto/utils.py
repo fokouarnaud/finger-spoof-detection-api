@@ -26,8 +26,26 @@ def enhance_image_target(image):
     return (padding,cv2.normalize(np.uint8(skeleton), None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=0))
   
  
-def get_feature_keypoint_and_descriptor(image,orb,padding,border=1):
+def get_feature_keypoint_and_descriptor_old(image,orb,padding,border=1):
     kp, des = orb.detectAndCompute(image, None)
     #print('kp',kp)
     #print('des',des)
     return (kp, des)
+
+def get_feature_keypoint_and_descriptor(image,orb,padding,border=1):
+    # Harris corners
+    harris_corners = cv2.cornerHarris(image, 3, 3, 0.04)
+    harris_normalized = cv2.normalize(harris_corners, 0, 255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32FC1)
+    threshold_harris = 125
+    # Extract keypoints
+    keypoints = []
+    for x in range(0, harris_normalized.shape[0]):
+        for y in range(0, harris_normalized.shape[1]):
+            if harris_normalized[x][y] > threshold_harris:
+                keypoints.append(cv2.KeyPoint(y, x, 1))
+    # Define descriptor
+    orb = cv2.ORB_create()
+    # Compute descriptors
+    _, des = orb.compute(image, keypoints)
+
+    return (keypoints, des)
