@@ -1,11 +1,11 @@
 # app.py#Import necessary packages
+
 from base import Candidate,Classroomsubjectclass,Classroomsubjectclasscandidat, db
 from flask import Flask, request, session, flash, redirect, \
     url_for, jsonify,make_response
 from flask_restful import Resource, reqparse, Api  # Instantiate a flask object
 
-import logging
-from logentries import LogentriesHandler
+import pickle
 
 from imageio import imread
 import base64
@@ -14,6 +14,8 @@ import cv2
 import json
 import os
 import numpy as np
+
+import logging
 
 from fingerphoto.utils import *
 from fingerphoto.utils2 import *
@@ -39,6 +41,7 @@ app.config['result_backend'] = os.environ.get("REDISCLOUD_URL")
 #app.config['CELERY_broker_url'] = 'redis://localhost:6379/0'
 #app.config['result_backend'] = 'redis://localhost:6379/0'
 
+#logging.basicConfig(filename='record.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 celery = Celery(app.name, broker_url=app.config['result_backend'],
 result_backend=app.config['result_backend'])
@@ -157,10 +160,16 @@ class CandidateAuthenticateAPI(Resource):
             
             distance_threshold=50
             len_best_matches=15
-            query_des_json=json.loads(args['descriptors'])
-            trained_feature_des_json=json.loads(item.descriptors)
-            query_des=np.asarray(query_des_json['data'],dtype=np.float32)
-            trained_feature_des=np.asarray(trained_feature_des_json['data'],dtype=np.float32)
+
+            memfile = io.BytesIO()
+            memfile.write(json.loads(args['descriptors']).encode('latin-1'))
+            memfile.seek(0)
+            query_des = np.load(memfile)
+
+            memfile = io.BytesIO()
+            memfile.write(json.loads(item.descriptors).encode('latin-1'))
+            memfile.seek(0)
+            trained_feature_des = np.load(memfile)
             
             app.logger.info("query_des : {}".format(query_des))
             app.logger.info("trained_feature_des : {}".format(trained_feature_des))
@@ -170,7 +179,7 @@ class CandidateAuthenticateAPI(Resource):
             if query_des is not None:
                 if  trained_feature_des is not None:
            
-                    matches = bf.match(trained_feature_des_json, trained_feature_des)
+                    matches = bf.match(query_des, trained_feature_des)
                     matches.sort(key=lambda x: x.distance, reverse=False) # sort matches based on feature distance
                     best_matches = [m.distance for m in matches if m.distance < distance_threshold]
                     result = len(best_matches) # matching function = length of best matches to given threshold
@@ -348,11 +357,16 @@ def background_processing(self, b64_string):
     kp, des = get_feature_keypoint_and_descriptor(img, orb,padding)
     
     #kp_json =json.dumps([{'x':k.pt[0],'y':k.pt[1], 'size':k.size,'octave':k.octave,'class_id':k.class_id,'angle': k.angle, 'response': k.response} for k in kp])
-    des_json=json.dumps({'data':des.tolist()})
+    memfile = io.BytesIO()
+    np.save(memfile, des)
+    memfile.seek(0)
+    des_serialized = json.dumps(memfile.read().decode('latin-1'))
+
+    #des_json=json.dumps({'data':pickle.dumps(des, protocol=0)})
     return {'current': 100, 'total': 100, 'status': 'Task completed!',
             'img': b64_string,
             #'keypoints':kp_json,
-            'descriptors':des_json
+            'descriptors':des_serialized
                 
             }
 
@@ -416,10 +430,6 @@ api.add_resource(FingerphotoProcessingAPI, '/fingerphoto',endpoint='fingerphoto_
 api.add_resource(FingerphotoProcessingStatusAPI, '/processingstatus',endpoint='processing_status')
 
 if __name__ == '__main__':
-
-    gunicorn_logger = logging.getLogger('gunicorn.error')
-    app.logger.handlers = gunicorn_logger.handlers
-    app.logger.setLevel(gunicorn_logger.level)
 
     # Run the applications
     app.run()

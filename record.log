@@ -1,0 +1,159 @@
+2021-10-18 07:20:42,115 INFO werkzeug MainThread :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-10-18 07:20:42,155 INFO werkzeug MainThread :  * Restarting with stat
+2021-10-18 07:20:43,664 WARNING werkzeug MainThread :  * Debugger is active!
+2021-10-18 07:20:44,043 INFO werkzeug MainThread :  * Debugger PIN: 909-857-712
+2021-10-18 07:20:53,405 INFO werkzeug Thread-2 : 127.0.0.1 - - [18/Oct/2021 07:20:53] "[35m[1mPOST /fingerphoto HTTP/1.1[0m" 202 -
+2021-10-18 07:21:09,446 INFO werkzeug Thread-3 : 127.0.0.1 - - [18/Oct/2021 07:21:09] "GET /processingstatus?task_id=2aaa72fb-c1b8-4478-8ceb-1d625c15b714 HTTP/1.1" 200 -
+2021-10-18 07:21:11,057 INFO werkzeug Thread-4 : 127.0.0.1 - - [18/Oct/2021 07:21:11] "GET /processingstatus?task_id=2aaa72fb-c1b8-4478-8ceb-1d625c15b714 HTTP/1.1" 200 -
+2021-10-18 07:21:12,132 INFO werkzeug Thread-5 : 127.0.0.1 - - [18/Oct/2021 07:21:12] "GET /processingstatus?task_id=2aaa72fb-c1b8-4478-8ceb-1d625c15b714 HTTP/1.1" 200 -
+2021-10-18 07:21:32,630 INFO werkzeug Thread-6 : 127.0.0.1 - - [18/Oct/2021 07:21:32] "GET /processingstatus?task_id=2aaa72fb-c1b8-4478-8ceb-1d625c15b714 HTTP/1.1" 200 -
+2021-10-18 07:26:16,392 INFO app Thread-7 : query_des : [[226 209 101 ...   8 215 120]
+ [ 75 189 180 ... 228  33 239]
+ [103 183 153 ...  66 139 213]
+ ...
+ [114  32 126 ... 140  39 244]
+ [202 166  37 ... 196 245 121]
+ [130 183  82 ... 208  39 249]]
+2021-10-18 07:26:16,392 INFO app Thread-7 : trained_feature_des : [[226 209 101 ...   8 215 120]
+ [ 75 189 180 ... 228  33 239]
+ [103 183 153 ...  66 139 213]
+ ...
+ [114  32 126 ... 140  39 244]
+ [202 166  37 ... 196 245 121]
+ [130 183  82 ... 208  39 249]]
+2021-10-18 07:26:16,513 INFO werkzeug Thread-7 : 127.0.0.1 - - [18/Oct/2021 07:26:16] "[35m[1mPOST /candidates/1/authenticate HTTP/1.1[0m" 500 -
+2021-10-18 08:13:08,950 INFO werkzeug MainThread :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-10-18 08:13:08,982 INFO werkzeug MainThread :  * Restarting with stat
+2021-10-18 08:13:10,324 WARNING werkzeug MainThread :  * Debugger is active!
+2021-10-18 08:13:10,325 INFO werkzeug MainThread :  * Debugger PIN: 512-800-856
+2021-10-18 08:13:35,429 INFO werkzeug MainThread :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-10-18 08:13:35,431 INFO werkzeug MainThread :  * Restarting with stat
+2021-10-18 08:13:37,003 WARNING werkzeug MainThread :  * Debugger is active!
+2021-10-18 08:13:37,004 INFO werkzeug MainThread :  * Debugger PIN: 512-800-856
+2021-10-18 08:14:26,254 INFO werkzeug Thread-2 : 127.0.0.1 - - [18/Oct/2021 08:14:26] "[35m[1mPOST /fingerphoto HTTP/1.1[0m" 202 -
+2021-10-18 08:14:42,397 INFO werkzeug Thread-3 : 127.0.0.1 - - [18/Oct/2021 08:14:42] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:44,986 INFO werkzeug Thread-4 : 127.0.0.1 - - [18/Oct/2021 08:14:44] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:46,178 INFO werkzeug Thread-5 : 127.0.0.1 - - [18/Oct/2021 08:14:46] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:47,125 INFO werkzeug Thread-6 : 127.0.0.1 - - [18/Oct/2021 08:14:47] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:48,035 INFO werkzeug Thread-7 : 127.0.0.1 - - [18/Oct/2021 08:14:48] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:48,985 INFO werkzeug Thread-8 : 127.0.0.1 - - [18/Oct/2021 08:14:48] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:49,946 INFO werkzeug Thread-9 : 127.0.0.1 - - [18/Oct/2021 08:14:49] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:51,060 INFO werkzeug Thread-10 : 127.0.0.1 - - [18/Oct/2021 08:14:51] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:52,008 INFO werkzeug Thread-11 : 127.0.0.1 - - [18/Oct/2021 08:14:52] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:52,915 INFO werkzeug Thread-12 : 127.0.0.1 - - [18/Oct/2021 08:14:52] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:53,719 INFO werkzeug Thread-13 : 127.0.0.1 - - [18/Oct/2021 08:14:53] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:54,566 INFO werkzeug Thread-14 : 127.0.0.1 - - [18/Oct/2021 08:14:54] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:55,626 INFO werkzeug Thread-15 : 127.0.0.1 - - [18/Oct/2021 08:14:55] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:56,981 INFO werkzeug Thread-16 : 127.0.0.1 - - [18/Oct/2021 08:14:56] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:57,991 INFO werkzeug Thread-17 : 127.0.0.1 - - [18/Oct/2021 08:14:57] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:58,921 INFO werkzeug Thread-18 : 127.0.0.1 - - [18/Oct/2021 08:14:58] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:14:59,825 INFO werkzeug Thread-19 : 127.0.0.1 - - [18/Oct/2021 08:14:59] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:15:00,849 INFO werkzeug Thread-20 : 127.0.0.1 - - [18/Oct/2021 08:15:00] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:15:01,752 INFO werkzeug Thread-21 : 127.0.0.1 - - [18/Oct/2021 08:15:01] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:15:03,024 INFO werkzeug Thread-22 : 127.0.0.1 - - [18/Oct/2021 08:15:03] "GET /processingstatus?task_id=861a8721-ba91-4c5b-80f9-f911e3a8e058 HTTP/1.1" 200 -
+2021-10-18 08:18:00,340 INFO werkzeug MainThread :  * Detected change in '/home/fokou/Desktop/other/school/m2/repo_memoire_2019_2020/practice/test_five/app.py', reloading
+2021-10-18 08:18:00,490 INFO werkzeug MainThread :  * Restarting with stat
+2021-10-18 08:18:02,344 WARNING werkzeug MainThread :  * Debugger is active!
+2021-10-18 08:18:02,345 INFO werkzeug MainThread :  * Debugger PIN: 512-800-856
+2021-10-18 08:20:06,888 INFO werkzeug MainThread :  * Detected change in '/home/fokou/Desktop/other/school/m2/repo_memoire_2019_2020/practice/test_five/app.py', reloading
+2021-10-18 08:20:07,168 INFO werkzeug MainThread :  * Restarting with stat
+2021-10-18 08:20:12,469 INFO werkzeug MainThread :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-10-18 08:20:12,470 INFO werkzeug MainThread :  * Restarting with stat
+2021-10-18 08:20:13,958 WARNING werkzeug MainThread :  * Debugger is active!
+2021-10-18 08:20:13,959 INFO werkzeug MainThread :  * Debugger PIN: 512-800-856
+2021-10-18 08:20:18,775 INFO werkzeug Thread-2 : 127.0.0.1 - - [18/Oct/2021 08:20:18] "[35m[1mPOST /fingerphoto HTTP/1.1[0m" 202 -
+2021-10-18 08:20:32,248 INFO werkzeug Thread-3 : 127.0.0.1 - - [18/Oct/2021 08:20:32] "GET /processingstatus?task_id=ff14cff2-c410-489c-b190-c6ff476952fe HTTP/1.1" 200 -
+2021-10-18 08:20:41,303 INFO werkzeug Thread-4 : 127.0.0.1 - - [18/Oct/2021 08:20:41] "GET /processingstatus?task_id=ff14cff2-c410-489c-b190-c6ff476952fe HTTP/1.1" 200 -
+2021-10-18 08:20:42,395 INFO werkzeug Thread-5 : 127.0.0.1 - - [18/Oct/2021 08:20:42] "GET /processingstatus?task_id=ff14cff2-c410-489c-b190-c6ff476952fe HTTP/1.1" 200 -
+2021-10-18 08:20:43,394 INFO werkzeug Thread-6 : 127.0.0.1 - - [18/Oct/2021 08:20:43] "GET /processingstatus?task_id=ff14cff2-c410-489c-b190-c6ff476952fe HTTP/1.1" 200 -
+2021-10-18 08:20:44,216 INFO werkzeug Thread-7 : 127.0.0.1 - - [18/Oct/2021 08:20:44] "GET /processingstatus?task_id=ff14cff2-c410-489c-b190-c6ff476952fe HTTP/1.1" 200 -
+2021-10-18 08:20:45,069 INFO werkzeug Thread-8 : 127.0.0.1 - - [18/Oct/2021 08:20:45] "GET /processingstatus?task_id=ff14cff2-c410-489c-b190-c6ff476952fe HTTP/1.1" 200 -
+2021-10-18 08:20:45,966 INFO werkzeug Thread-9 : 127.0.0.1 - - [18/Oct/2021 08:20:45] "GET /processingstatus?task_id=ff14cff2-c410-489c-b190-c6ff476952fe HTTP/1.1" 200 -
+2021-10-18 08:20:46,817 INFO werkzeug Thread-10 : 127.0.0.1 - - [18/Oct/2021 08:20:46] "GET /processingstatus?task_id=ff14cff2-c410-489c-b190-c6ff476952fe HTTP/1.1" 200 -
+2021-10-18 08:20:47,651 INFO werkzeug Thread-11 : 127.0.0.1 - - [18/Oct/2021 08:20:47] "GET /processingstatus?task_id=ff14cff2-c410-489c-b190-c6ff476952fe HTTP/1.1" 200 -
+2021-10-18 08:20:48,511 INFO werkzeug Thread-12 : 127.0.0.1 - - [18/Oct/2021 08:20:48] "GET /processingstatus?task_id=ff14cff2-c410-489c-b190-c6ff476952fe HTTP/1.1" 200 -
+2021-10-18 08:21:01,550 INFO werkzeug Thread-13 : 127.0.0.1 - - [18/Oct/2021 08:21:01] "GET /processingstatus?task_id=ff14cff2-c410-489c-b190-c6ff476952fe HTTP/1.1" 200 -
+2021-10-18 08:47:39,781 INFO werkzeug MainThread :  * Detected change in '/home/fokou/Desktop/other/school/m2/repo_memoire_2019_2020/practice/test_five/app.py', reloading
+2021-10-18 08:47:39,934 INFO werkzeug MainThread :  * Restarting with stat
+2021-10-18 08:47:41,623 WARNING werkzeug MainThread :  * Debugger is active!
+2021-10-18 08:47:41,624 INFO werkzeug MainThread :  * Debugger PIN: 512-800-856
+2021-10-18 08:48:04,366 INFO werkzeug MainThread :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-10-18 08:48:04,369 INFO werkzeug MainThread :  * Restarting with stat
+2021-10-18 08:48:06,049 WARNING werkzeug MainThread :  * Debugger is active!
+2021-10-18 08:48:06,050 INFO werkzeug MainThread :  * Debugger PIN: 512-800-856
+2021-10-18 08:48:11,514 INFO werkzeug Thread-2 : 127.0.0.1 - - [18/Oct/2021 08:48:11] "[35m[1mPOST /fingerphoto HTTP/1.1[0m" 202 -
+2021-10-18 08:48:24,415 INFO werkzeug Thread-3 : 127.0.0.1 - - [18/Oct/2021 08:48:24] "GET /processingstatus?task_id=4cdb2651-f76d-473b-8108-82bb9f9cd24f HTTP/1.1" 200 -
+2021-10-18 08:48:25,647 INFO werkzeug Thread-4 : 127.0.0.1 - - [18/Oct/2021 08:48:25] "GET /processingstatus?task_id=4cdb2651-f76d-473b-8108-82bb9f9cd24f HTTP/1.1" 200 -
+2021-10-18 08:48:26,511 INFO werkzeug Thread-5 : 127.0.0.1 - - [18/Oct/2021 08:48:26] "GET /processingstatus?task_id=4cdb2651-f76d-473b-8108-82bb9f9cd24f HTTP/1.1" 200 -
+2021-10-18 08:48:27,367 INFO werkzeug Thread-6 : 127.0.0.1 - - [18/Oct/2021 08:48:27] "GET /processingstatus?task_id=4cdb2651-f76d-473b-8108-82bb9f9cd24f HTTP/1.1" 200 -
+2021-10-18 08:48:28,859 INFO werkzeug Thread-7 : 127.0.0.1 - - [18/Oct/2021 08:48:28] "GET /processingstatus?task_id=4cdb2651-f76d-473b-8108-82bb9f9cd24f HTTP/1.1" 200 -
+2021-10-18 08:48:29,830 INFO werkzeug Thread-8 : 127.0.0.1 - - [18/Oct/2021 08:48:29] "GET /processingstatus?task_id=4cdb2651-f76d-473b-8108-82bb9f9cd24f HTTP/1.1" 200 -
+2021-10-18 08:48:30,788 INFO werkzeug Thread-9 : 127.0.0.1 - - [18/Oct/2021 08:48:30] "GET /processingstatus?task_id=4cdb2651-f76d-473b-8108-82bb9f9cd24f HTTP/1.1" 200 -
+2021-10-18 08:48:31,605 INFO werkzeug Thread-10 : 127.0.0.1 - - [18/Oct/2021 08:48:31] "GET /processingstatus?task_id=4cdb2651-f76d-473b-8108-82bb9f9cd24f HTTP/1.1" 200 -
+2021-10-18 08:48:32,469 INFO werkzeug Thread-11 : 127.0.0.1 - - [18/Oct/2021 08:48:32] "GET /processingstatus?task_id=4cdb2651-f76d-473b-8108-82bb9f9cd24f HTTP/1.1" 200 -
+2021-10-18 08:48:33,324 INFO werkzeug Thread-12 : 127.0.0.1 - - [18/Oct/2021 08:48:33] "GET /processingstatus?task_id=4cdb2651-f76d-473b-8108-82bb9f9cd24f HTTP/1.1" 200 -
+2021-10-18 08:48:34,183 INFO werkzeug Thread-13 : 127.0.0.1 - - [18/Oct/2021 08:48:34] "GET /processingstatus?task_id=4cdb2651-f76d-473b-8108-82bb9f9cd24f HTTP/1.1" 200 -
+2021-10-18 08:48:35,017 INFO werkzeug Thread-14 : 127.0.0.1 - - [18/Oct/2021 08:48:35] "GET /processingstatus?task_id=4cdb2651-f76d-473b-8108-82bb9f9cd24f HTTP/1.1" 200 -
+2021-10-18 08:48:35,883 INFO werkzeug Thread-15 : 127.0.0.1 - - [18/Oct/2021 08:48:35] "GET /processingstatus?task_id=4cdb2651-f76d-473b-8108-82bb9f9cd24f HTTP/1.1" 200 -
+                                                                                                                                                    2021-10-18 09:10:15,939 INFO werkzeug MainThread :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-10-18 09:10:15,957 INFO werkzeug MainThread :  * Restarting with stat
+2021-10-18 09:10:17,300 WARNING werkzeug MainThread :  * Debugger is active!
+2021-10-18 09:10:17,319 INFO werkzeug MainThread :  * Debugger PIN: 134-984-018
+2021-10-18 09:10:26,111 INFO werkzeug Thread-2 : 127.0.0.1 - - [18/Oct/2021 09:10:26] "[35m[1mPOST /fingerphoto HTTP/1.1[0m" 202 -
+2021-10-18 09:10:43,761 INFO werkzeug Thread-3 : 127.0.0.1 - - [18/Oct/2021 09:10:43] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:10:46,651 INFO werkzeug Thread-4 : 127.0.0.1 - - [18/Oct/2021 09:10:46] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:10:48,260 INFO werkzeug Thread-5 : 127.0.0.1 - - [18/Oct/2021 09:10:48] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:10:49,115 INFO werkzeug Thread-6 : 127.0.0.1 - - [18/Oct/2021 09:10:49] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:10:49,881 INFO werkzeug Thread-7 : 127.0.0.1 - - [18/Oct/2021 09:10:49] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:10:50,604 INFO werkzeug Thread-8 : 127.0.0.1 - - [18/Oct/2021 09:10:50] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:10:51,404 INFO werkzeug Thread-9 : 127.0.0.1 - - [18/Oct/2021 09:10:51] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:10:52,141 INFO werkzeug Thread-10 : 127.0.0.1 - - [18/Oct/2021 09:10:52] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:10:52,866 INFO werkzeug Thread-11 : 127.0.0.1 - - [18/Oct/2021 09:10:52] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:10:53,547 INFO werkzeug Thread-12 : 127.0.0.1 - - [18/Oct/2021 09:10:53] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:10:54,219 INFO werkzeug Thread-13 : 127.0.0.1 - - [18/Oct/2021 09:10:54] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:10:54,935 INFO werkzeug Thread-14 : 127.0.0.1 - - [18/Oct/2021 09:10:54] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:10:55,569 INFO werkzeug Thread-15 : 127.0.0.1 - - [18/Oct/2021 09:10:55] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:10:56,174 INFO werkzeug Thread-16 : 127.0.0.1 - - [18/Oct/2021 09:10:56] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:20,283 INFO werkzeug Thread-17 : 127.0.0.1 - - [18/Oct/2021 09:11:20] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:21,863 INFO werkzeug Thread-18 : 127.0.0.1 - - [18/Oct/2021 09:11:21] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:23,070 INFO werkzeug Thread-19 : 127.0.0.1 - - [18/Oct/2021 09:11:23] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:24,064 INFO werkzeug Thread-20 : 127.0.0.1 - - [18/Oct/2021 09:11:24] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:24,943 INFO werkzeug Thread-21 : 127.0.0.1 - - [18/Oct/2021 09:11:24] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:25,836 INFO werkzeug Thread-22 : 127.0.0.1 - - [18/Oct/2021 09:11:25] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:26,610 INFO werkzeug Thread-23 : 127.0.0.1 - - [18/Oct/2021 09:11:26] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:27,436 INFO werkzeug Thread-24 : 127.0.0.1 - - [18/Oct/2021 09:11:27] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:28,293 INFO werkzeug Thread-25 : 127.0.0.1 - - [18/Oct/2021 09:11:28] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:29,119 INFO werkzeug Thread-26 : 127.0.0.1 - - [18/Oct/2021 09:11:29] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:29,911 INFO werkzeug Thread-27 : 127.0.0.1 - - [18/Oct/2021 09:11:29] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:30,850 INFO werkzeug Thread-28 : 127.0.0.1 - - [18/Oct/2021 09:11:30] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:31,669 INFO werkzeug Thread-29 : 127.0.0.1 - - [18/Oct/2021 09:11:31] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:32,524 INFO werkzeug Thread-30 : 127.0.0.1 - - [18/Oct/2021 09:11:32] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:33,422 INFO werkzeug Thread-31 : 127.0.0.1 - - [18/Oct/2021 09:11:33] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:34,243 INFO werkzeug Thread-32 : 127.0.0.1 - - [18/Oct/2021 09:11:34] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:35,121 INFO werkzeug Thread-33 : 127.0.0.1 - - [18/Oct/2021 09:11:35] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:36,045 INFO werkzeug Thread-34 : 127.0.0.1 - - [18/Oct/2021 09:11:36] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:37,035 INFO werkzeug Thread-35 : 127.0.0.1 - - [18/Oct/2021 09:11:37] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:37,975 INFO werkzeug Thread-36 : 127.0.0.1 - - [18/Oct/2021 09:11:37] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:38,951 INFO werkzeug Thread-37 : 127.0.0.1 - - [18/Oct/2021 09:11:38] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:39,788 INFO werkzeug Thread-38 : 127.0.0.1 - - [18/Oct/2021 09:11:39] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:40,740 INFO werkzeug Thread-39 : 127.0.0.1 - - [18/Oct/2021 09:11:40] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:41,675 INFO werkzeug Thread-40 : 127.0.0.1 - - [18/Oct/2021 09:11:41] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:42,532 INFO werkzeug Thread-41 : 127.0.0.1 - - [18/Oct/2021 09:11:42] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:43,701 INFO werkzeug Thread-42 : 127.0.0.1 - - [18/Oct/2021 09:11:43] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:45,121 INFO werkzeug Thread-43 : 127.0.0.1 - - [18/Oct/2021 09:11:45] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:46,023 INFO werkzeug Thread-44 : 127.0.0.1 - - [18/Oct/2021 09:11:46] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:46,832 INFO werkzeug Thread-45 : 127.0.0.1 - - [18/Oct/2021 09:11:46] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:47,731 INFO werkzeug Thread-46 : 127.0.0.1 - - [18/Oct/2021 09:11:47] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:48,505 INFO werkzeug Thread-47 : 127.0.0.1 - - [18/Oct/2021 09:11:48] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:49,381 INFO werkzeug Thread-48 : 127.0.0.1 - - [18/Oct/2021 09:11:49] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:50,219 INFO werkzeug Thread-49 : 127.0.0.1 - - [18/Oct/2021 09:11:50] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:51,040 INFO werkzeug Thread-50 : 127.0.0.1 - - [18/Oct/2021 09:11:51] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:51,848 INFO werkzeug Thread-51 : 127.0.0.1 - - [18/Oct/2021 09:11:51] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:52,683 INFO werkzeug Thread-52 : 127.0.0.1 - - [18/Oct/2021 09:11:52] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:53,484 INFO werkzeug Thread-53 : 127.0.0.1 - - [18/Oct/2021 09:11:53] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:54,228 INFO werkzeug Thread-54 : 127.0.0.1 - - [18/Oct/2021 09:11:54] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:55,035 INFO werkzeug Thread-55 : 127.0.0.1 - - [18/Oct/2021 09:11:55] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:55,808 INFO werkzeug Thread-56 : 127.0.0.1 - - [18/Oct/2021 09:11:55] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:11:56,638 INFO werkzeug Thread-57 : 127.0.0.1 - - [18/Oct/2021 09:11:56] "GET /processingstatus?task_id=dde7fd30-1bce-4c8f-8148-6128edea62b1 HTTP/1.1" 200 -
+2021-10-18 09:15:51,105 INFO werkzeug Thread-58 : 127.0.0.1 - - [18/Oct/2021 09:15:51] "[31m[1mPOST /candidate/fokou HTTP/1.1[0m" 400 -
+2021-10-18 09:18:25,779 INFO werkzeug Thread-59 : 127.0.0.1 - - [18/Oct/2021 09:18:25] "[31m[1mPOST /candidate/fokou HTTP/1.1[0m" 400 -

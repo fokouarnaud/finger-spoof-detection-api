@@ -1,2 +1,2 @@
-web: gunicorn app:app --log-level=debug
+web: gunicorn app:app 
 worker: celery  -A  app.celery worker --beat 
