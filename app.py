@@ -5,8 +5,7 @@ from flask import Flask, request, session, flash, redirect, \
 from flask_restful import Resource, reqparse, Api  # Instantiate a flask object
 
 import logging
-#from logging.handlers import RotatingFileHandler
-#import sys
+from logentries import LogentriesHandler
 
 from imageio import imread
 import base64
