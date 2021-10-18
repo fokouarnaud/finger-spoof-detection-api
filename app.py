@@ -5,7 +5,7 @@ from flask import Flask, request, session, flash, redirect, \
 from flask_restful import Resource, reqparse, Api  # Instantiate a flask object
 
 
-
+import sys
 from imageio import imread
 import base64
 import io
@@ -162,6 +162,9 @@ class CandidateAuthenticateAPI(Resource):
             trained_feature_des=np.array(trained_feature_des_json['data'],dtype=np.float32)
            
             bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+            print('query_des',query_des)
+            print('trained_feature_des',trained_feature_des)
+            sys.stdout.flush()
            
             matches = bf.match(query_des, trained_feature_des)
             matches.sort(key=lambda x: x.distance, reverse=False) # sort matches based on feature distance
@@ -408,4 +411,4 @@ api.add_resource(FingerphotoProcessingStatusAPI, '/processingstatus',endpoint='p
 
 if __name__ == '__main__':
     # Run the applications
-    app.run()
+    app.run(debug=True)
