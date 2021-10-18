@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from .utils2 import *
+from .fingerprint_feature_extractor import *
 
 from .constants import IMAGES_PATH, IMAGES_PATH_GALLERY, IMAGES_PATH_PROBE
 
@@ -32,7 +33,7 @@ def get_feature_keypoint_and_descriptor_old(image,orb,padding,border=1):
     #print('des',des)
     return (kp, des)
 
-def get_feature_keypoint_and_descriptor(image,orb,padding,border=1):
+def get_feature_keypoint_and_descriptor_old2(image,orb,padding,border=1):
     # Harris corners
     harris_corners = cv2.cornerHarris(image, 3, 3, 0.04)
     harris_normalized = cv2.normalize(harris_corners, 0, 255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32FC1)
@@ -43,9 +44,36 @@ def get_feature_keypoint_and_descriptor(image,orb,padding,border=1):
         for y in range(0, harris_normalized.shape[1]):
             if harris_normalized[x][y] > threshold_harris:
                 keypoints.append(cv2.KeyPoint(y, x, 1))
-    # Define descriptor
-    orb = cv2.ORB_create()
+
     # Compute descriptors
     _, des = orb.compute(image, keypoints)
 
+    return (keypoints, des)
+
+def minutiaeToKeyPoints_old(FeaturesTerminations, FeaturesBifurcations):
+    terminaison_id=1
+    bifurcation_id=2
+    result = []
+    size=1
+    response = 1
+    octave = 1
+    kps_term = [ cv2.KeyPoint(x=p.locX,y= p.locY, _size=size,_angle=p.Orientation[0],_response=response,
+                                        _octave=octave,_class_id=terminaison_id) for p in FeaturesTerminations ] 
+    
+    kps_bifurc = [ cv2.KeyPoint(x=p.locX,y= p.locY, _size=size,_angle=p.Orientation[0],_response=response,
+                                        _octave=octave,_class_id=terminaison_id) for p in FeaturesBifurcations ] 
+    
+    result=[*kps_term,*kps_bifurc]
+    return result
+
+
+
+
+
+def get_feature_keypoint_and_descriptor(image,orb,padding,border=1):
+    DispImg, FeaturesTerminations, FeaturesBifurcations = extract_minutiae_features2(image, showResult=False)
+    keypoints=minutiaeToKeyPoints_old( FeaturesTerminations, FeaturesBifurcations)
+    _, des = orb.compute(image, keypoints)
+    #print('kp',kp)
+    #print('des',des)
     return (keypoints, des)
