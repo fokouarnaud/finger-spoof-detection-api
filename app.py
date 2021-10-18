@@ -166,13 +166,13 @@ class CandidateAuthenticateAPI(Resource):
             memfile.seek(0)
             query_des = np.load(memfile)
 
-            memfile = io.BytesIO()
-            memfile.write(json.loads(item.descriptors).encode('latin-1'))
-            memfile.seek(0)
-            trained_feature_des = np.load(memfile)
+            memfile_2 = io.BytesIO()
+            memfile_2.write(json.loads(item.descriptors).encode('latin-1'))
+            memfile_2.seek(0)
+            trained_feature_des = np.load(memfile_2)
             
-            app.logger.info("query_des : {}".format(query_des))
-            app.logger.info("trained_feature_des : {}".format(trained_feature_des))
+           # app.logger.info("query_des : {}".format(query_des))
+           # app.logger.info("trained_feature_des : {}".format(trained_feature_des))
             
             bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
             
