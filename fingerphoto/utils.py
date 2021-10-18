@@ -57,11 +57,9 @@ def minutiaeToKeyPoints_old(FeaturesTerminations, FeaturesBifurcations):
     size=1
     response = 1
     octave = 1
-    kps_term = [ cv2.KeyPoint(x=p.locX,y= p.locY, _size=size,_angle=p.Orientation[0],_response=response,
-                                        _octave=octave,_class_id=terminaison_id) for p in FeaturesTerminations ] 
+    kps_term = [ cv2.KeyPoint( p.locY,p.locX,size) for p in FeaturesTerminations ] 
     
-    kps_bifurc = [ cv2.KeyPoint(x=p.locX,y= p.locY, _size=size,_angle=1,_response=response,
-                                        _octave=octave,_class_id=terminaison_id) for p in FeaturesBifurcations ] 
+    kps_bifurc = [ cv2.KeyPoint(p.locY,p.locX,size) for p in FeaturesBifurcations ] 
     
     result=[*kps_term,*kps_bifurc]
     return result
