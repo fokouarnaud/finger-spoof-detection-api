@@ -50,28 +50,27 @@ def get_feature_keypoint_and_descriptor_old2(image,orb,padding,border=1):
 
     return (keypoints, des)
 
-def minutiaeToKeyPoints_old(FeaturesTerminations, FeaturesBifurcations):
-    terminaison_id=1
-    bifurcation_id=2
+def minutiaeToKeyPoints(FeaturesTerminations, FeaturesBifurcations):
+    terminaison_id=0
+    bifurcation_id=1
     result = []
     size=1
     response = 1
     octave = 1
-    kps_term = [ cv2.KeyPoint( p.locY,p.locX,size) for p in FeaturesTerminations ] 
+    kps_term = [ cv2.KeyPoint(x=p.locX,y= p.locY, _size=size,_angle=p.Orientation[0],_response=response,
+                                        _octave=octave,_class_id=terminaison_id) for p in FeaturesTerminations ] 
     
-    kps_bifurc = [ cv2.KeyPoint(p.locY,p.locX,size) for p in FeaturesBifurcations ] 
+    kps_bifurc = [ cv2.KeyPoint(x=p.locX,y= p.locY, _size=size,_angle=-1,_response=response,
+                                        _octave=octave,_class_id=terminaison_id) for p in FeaturesBifurcations ] 
     
     result=[*kps_term,*kps_bifurc]
     return result
 
 
 
-
-
 def get_feature_keypoint_and_descriptor(image,orb,padding,border=1):
     DispImg, FeaturesTerminations, FeaturesBifurcations = extract_minutiae_features2(image, showResult=False)
-    keypoints=minutiaeToKeyPoints_old( FeaturesTerminations, FeaturesBifurcations)
+    keypoints=minutiaeToKeyPoints( FeaturesTerminations, FeaturesBifurcations)
     _, des = orb.compute(image, keypoints)
-    #print('kp',kp)
-    #print('des',des)
+    
     return (keypoints, des)
