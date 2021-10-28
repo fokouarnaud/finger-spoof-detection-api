@@ -27,7 +27,7 @@ def enhance_image_target(image):
     return (padding,cv2.normalize(np.uint8(skeleton), None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=0))
   
  
-def get_feature_keypoint_and_descriptor_old(image,orb,padding,border=1):
+def get_feature_keypoint_and_descriptor(image,orb,padding,border=1):
     kp, des = orb.detectAndCompute(image, None)
     #print('kp',kp)
     #print('des',des)
@@ -68,7 +68,7 @@ def minutiaeToKeyPoints(FeaturesTerminations, FeaturesBifurcations):
 
 
 
-def get_feature_keypoint_and_descriptor(image,orb,padding,border=1):
+def get_feature_keypoint_and_descriptor_old5(image,orb,padding,border=1):
     DispImg, FeaturesTerminations, FeaturesBifurcations = extract_minutiae_features2(image, showResult=False)
     keypoints=minutiaeToKeyPoints( FeaturesTerminations, FeaturesBifurcations)
     _, des = orb.compute(image, keypoints)
